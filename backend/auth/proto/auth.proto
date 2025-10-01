@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "./;auth_grpc_api";
+
+message GetUserDataRequest {
+    string token = 1;
+}
+
+message GetUserDataResponse {
+    string email = 1;
+}
+
+service AuthService {
+    rpc GetUserData(GetUserDataRequest) returns (GetUserDataResponse);
+}

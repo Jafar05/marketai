@@ -1,0 +1,34 @@
+http:
+  port: ":8080"
+  apiBasePath: "/auth/api/v1"
+  readTimeout: 15s
+  writeTimeout: 0s
+  bodyLimitSkipPaths: []
+logger:
+  level: debug
+  serviceName: authdb
+probes:
+  port: ":8060"
+  livenessPath: "/healthz"
+  readinessPath: "/readyz"
+  prometheusPath: "/metrics"
+  checkIntervalSeconds: 10
+grpc:
+  port: :5040
+postgres:
+  host: "localhost"
+  port: 5432
+  dbname: "authdb"
+  sslmode: "disable"
+  maxConn: 10
+  minConn: 2
+  healthCheckPeriodSeconds: 30
+  maxConnIdleTimeSeconds: 60
+  maxConnLifetimeSeconds: 300
+tracing:
+  enabled: false
+  endpoint: ""
+  sampleRatio: 1.0
+
+# JWT секрет для всех сервисов
+jwt_secret: "your-super-secret-jwt-key-here"
