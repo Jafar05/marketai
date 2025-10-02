@@ -8,8 +8,8 @@ CONFIG_DIR="${CONFIG_DIR:-/app/configs/$SERVICE_NAME}"
 mkdir -p "$CONFIG_DIR"
 
 # Если переменные заданы — восстанавливаем файлы из Railway
-CONFIG_VALUE="${CONFIG_YAML:-${AUTH_CONFIG_YAML:-}}"
-SECRETS_VALUE="${SECRETS_YAML:-${AUTH_SECRETS_YAML:-}}"
+CONFIG_VALUE="${CONFIG_YAML}"
+SECRETS_VALUE="${SECRETS_YAML}"
 
 if [ "$CONFIG_VALUE" != "" ]; then
   printf "%s" "$CONFIG_VALUE" > "$CONFIG_DIR/config.yaml"
