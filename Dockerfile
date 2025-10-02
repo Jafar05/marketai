@@ -17,7 +17,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o /out/server ./auth/cmd/auth
 
 # Runtime stage
-FROM alpine:3.20
+FROM gcr.io/distroless/static:nonroot
 WORKDIR /app
 
 ENV PORT=8080
@@ -28,10 +28,10 @@ COPY --from=builder /out/server /app/server
 # Copy runtime configs from repo root
 COPY ./configs/auth /app/configs/auth
 
-USER nobody
+USER nonroot:nonroot
 
-# Rewrite http.port in config to $PORT at container start and run the server
-ENTRYPOINT ["sh","-c","sed -i -E 's/^  port: \\".*\\"/  port: ":'\\\"${PORT}\\\"'"/' /app/configs/auth/config.yaml && exec /app/server -config=/app/configs/auth/config.yaml -secrets=/app/configs/auth/secrets.yaml"]
+ENTRYPOINT ["/app/server"]
+CMD ["-config=/app/configs/auth/config.yaml","-secrets=/app/configs/auth/secrets.yaml"]
 
 
 
