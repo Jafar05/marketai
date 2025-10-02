@@ -4,7 +4,7 @@ FROM golang:1.24-alpine AS builder
 WORKDIR /app
 
 # Install build deps
-RUN apk add --no-cache gcc musl-dev git
+RUN apk add --no-cache git
 
 # Cache go mod deps
 COPY go.mod go.sum ./
@@ -25,9 +25,13 @@ EXPOSE 8080
 
 COPY --from=builder /out/server /app/server
 
+# Copy runtime configs from repo root
+COPY ./configs/auth /app/configs/auth
+
 USER nonroot:nonroot
 
 ENTRYPOINT ["/app/server"]
+CMD ["-config=/app/configs/auth/config.yaml","-secrets=/app/configs/auth/secrets.yaml"]
 
 
 
