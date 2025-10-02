@@ -1,2 +1,5 @@
 .env
 .idea
+.configs
+configs/auth/config.yaml
+configs/auth/secrets.yaml

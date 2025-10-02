@@ -13,26 +13,26 @@ RUN go mod download
 # Copy the rest of the sources
 COPY . .
 
-# Build the auth service binary
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o /out/server ./auth/cmd/auth
+# Build the service binary (select service by build arg)
+ARG SERVICE_NAME=auth
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s - w" -o /out/server ./${SERVICE_NAME}/cmd/${SERVICE_NAME}
 
 # Runtime stage
-FROM gcr.io/distroless/static:nonroot
+FROM alpine:3.20
 WORKDIR /app
+
+RUN adduser -D -H -u 10001 appuser \
+    && apk add --no-cache ca-certificates
 
 ENV PORT=8080
 EXPOSE 8080
 
 COPY --from=builder /out/server /app/server
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
-# Copy runtime configs from repo root
-COPY ./configs/auth /app/configs/auth
+USER appuser
 
-USER nonroot:nonroot
+ENV SERVICE_NAME=${SERVICE_NAME}
 
-ENTRYPOINT ["/app/server"]
-CMD ["-config=/app/configs/auth/config.yaml","-secrets=/app/configs/auth/secrets.yaml"]
-
-
-
-
+ENTRYPOINT ["/app/entrypoint.sh"]
