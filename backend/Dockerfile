@@ -1,0 +1,34 @@
+# Multi-stage Dockerfile for Go backend (auth service)
+
+FROM golang:1.24-alpine AS builder
+WORKDIR /app
+
+# Install build deps
+RUN apk add --no-cache gcc musl-dev git
+
+# Cache go mod deps
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy the rest of the sources
+COPY . .
+
+# Build the auth service binary
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o /out/server ./auth/cmd/auth
+
+# Runtime stage
+FROM gcr.io/distroless/static:nonroot
+WORKDIR /app
+
+ENV PORT=8080
+EXPOSE 8080
+
+COPY --from=builder /out/server /app/server
+
+USER nonroot:nonroot
+
+ENTRYPOINT ["/app/server"]
+
+
+
+

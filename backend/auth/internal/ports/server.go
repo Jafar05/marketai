@@ -34,6 +34,7 @@ func App() fx.Option {
 		fx.Provide(
 			app.NewAppCQRS,
 			postgres.NewAuthRepository,
+			newGrpcServer,
 		),
 	)
 }

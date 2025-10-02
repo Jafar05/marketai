@@ -16,10 +16,10 @@ probes:
 grpc:
   port: :5040
 postgres:
-  host: "localhost"
-  port: 5432
-  dbname: "authdb"
-  sslmode: "disable"
+  host: shuttle.proxy.rlwy.net
+  port: "39315"
+  dbName: railway
+  sslMode: "disable"
   maxConn: 10
   minConn: 2
   healthCheckPeriodSeconds: 30
