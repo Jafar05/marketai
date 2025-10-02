@@ -31,9 +31,12 @@ COPY --from=builder /out/server /app/server
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
+# Prepare writable configs directory for non-root user
+RUN mkdir -p /app/configs && chown -R appuser:appuser /app
+
 USER appuser
 
-# Re-declare build arg in this stage and export to runtime ENV
+# Re-declare build arg in this stage and export to runtime ENV (can be overridden by Railway Variables)
 ARG SERVICE_NAME=auth
 ENV SERVICE_NAME=$SERVICE_NAME
 
