@@ -1,4 +1,4 @@
-# Multi-stage Dockerfile for Go backend (auth service)
+# Multi-stage Dockerfile for Go backend (universal for services)
 
 FROM golang:1.24-alpine AS builder
 WORKDIR /app
@@ -15,7 +15,7 @@ COPY . .
 
 # Build the service binary (select service by build arg)
 ARG SERVICE_NAME=auth
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s - w" -o /out/server ./${SERVICE_NAME}/cmd/${SERVICE_NAME}
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o /out/server ./${SERVICE_NAME}/cmd/${SERVICE_NAME}
 
 # Runtime stage
 FROM alpine:3.20
@@ -33,6 +33,8 @@ RUN chmod +x /app/entrypoint.sh
 
 USER appuser
 
-ENV SERVICE_NAME=${SERVICE_NAME}
+# Re-declare build arg in this stage and export to runtime ENV
+ARG SERVICE_NAME=auth
+ENV SERVICE_NAME=$SERVICE_NAME
 
 ENTRYPOINT ["/app/entrypoint.sh"]
