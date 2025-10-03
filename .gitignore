@@ -1,6 +1,5 @@
 .env
 .idea
-.configs
-configs/auth/config.yaml
-configs/auth/secrets.yaml
+configs/auth/config.sample.yaml
+configs/auth/secrets.sample.yaml
 .DS_Store

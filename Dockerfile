@@ -38,6 +38,6 @@ USER appuser
 
 # Re-declare build arg in this stage and export to runtime ENV (can be overridden by Railway Variables)
 ARG SERVICE_NAME=auth
-ENV SERVICE_NAME=$SERVICE_NAME
+ENV SERVICE_NAME=${SERVICE_NAME}
 
 ENTRYPOINT ["/app/entrypoint.sh"]
