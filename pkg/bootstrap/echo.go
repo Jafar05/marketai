@@ -1,11 +1,11 @@
 package bootstrap
 
 import (
+	"marketai/pkg/http"
 	"slices"
 	"strings"
 	"time"
 
-	"github.com/Jafar05/pkg/http"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/labstack/echo/otelecho"

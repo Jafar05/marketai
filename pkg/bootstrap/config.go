@@ -4,11 +4,11 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"marketai/pkg/logger"
+	"marketai/pkg/probes"
 	"os"
 	"runtime"
 
-	"github.com/Jafar05/pkg/logger"
-	"github.com/Jafar05/pkg/probes"
 	"github.com/go-playground/validator"
 	"github.com/spf13/viper"
 	"go.uber.org/automaxprocs/maxprocs"

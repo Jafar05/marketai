@@ -3,8 +3,8 @@ package postgresql
 import (
 	"context"
 	"errors"
+	"marketai/pkg/probes"
 
-	"github.com/Jafar05/pkg/probes"
 	bindata "github.com/golang-migrate/migrate/v4/source/go_bindata"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"go.uber.org/fx"

@@ -1,11 +1,11 @@
 package config
 
 import (
-	"github.com/Jafar05/pkg/bootstrap"
-	"github.com/Jafar05/pkg/grpc"
-	"github.com/Jafar05/pkg/logger"
-	"github.com/Jafar05/pkg/postgresql"
-	"github.com/Jafar05/pkg/probes"
+	"marketai/pkg/bootstrap"
+	"marketai/pkg/grpc"
+	"marketai/pkg/logger"
+	"marketai/pkg/postgresql"
+	"marketai/pkg/probes"
 )
 
 type (

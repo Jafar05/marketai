@@ -1,8 +1,8 @@
 package bootstrap
 
 import (
-	"github.com/Jafar05/pkg/logger"
-	"github.com/Jafar05/pkg/probes"
+	"marketai/pkg/logger"
+	"marketai/pkg/probes"
 
 	"github.com/go-playground/validator"
 	"go.uber.org/fx"

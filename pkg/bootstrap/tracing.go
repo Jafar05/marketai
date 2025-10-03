@@ -23,7 +23,7 @@ import (
 
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 
-	pkgGrpc "github.com/Jafar05/pkg/grpc"
+	pkgGrpc "marketai/pkg/grpc"
 )
 
 const (

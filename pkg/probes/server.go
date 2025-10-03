@@ -2,9 +2,8 @@ package probes
 
 import (
 	"context"
+	"marketai/pkg/http"
 	"time"
-
-	"github.com/Jafar05/pkg/http"
 
 	"github.com/heptiolabs/healthcheck"
 	"github.com/labstack/echo-contrib/echoprometheus"

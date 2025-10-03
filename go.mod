@@ -3,7 +3,6 @@ module marketai
 go 1.24.4
 
 require (
-	github.com/Jafar05/pkg v1.0.4
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/golang/mock v1.6.0
 	github.com/jackc/pgx/v5 v5.7.6

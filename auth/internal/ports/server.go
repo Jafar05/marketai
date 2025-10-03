@@ -6,10 +6,10 @@ import (
 	"marketai/auth/internal/app"
 	"marketai/auth/internal/config"
 	auth_grpc_api "marketai/auth/proto/generated-source"
+	"marketai/pkg/bootstrap"
+	"marketai/pkg/grpc"
+	"marketai/pkg/postgresql"
 
-	"github.com/Jafar05/pkg/bootstrap"
-	"github.com/Jafar05/pkg/grpc"
-	"github.com/Jafar05/pkg/postgresql"
 	"go.uber.org/fx"
 )
 

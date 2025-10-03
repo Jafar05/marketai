@@ -1,6 +1,6 @@
 package config
 
-import "github.com/Jafar05/pkg/postgresql"
+import "marketai/pkg/postgresql"
 
 type Secrets struct {
 	Postgres *postgresql.Secrets `mapstructure:"pg" validate:"required"`

@@ -7,10 +7,10 @@ import (
 	"marketai/auth/internal/app/dto"
 	"marketai/auth/internal/config"
 	"marketai/auth/internal/domain"
+	"marketai/pkg/logger"
 	"marketai/pkgAuth/jwt"
 	"net/http"
 
-	"github.com/Jafar05/pkg/logger"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
