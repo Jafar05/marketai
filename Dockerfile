@@ -1,4 +1,4 @@
-# Multi-stage Dockerfile for Go backend (universal for services)
+# Multi-stage Dockerfile for Go backend (auth service)
 
 FROM golang:1.24-alpine AS builder
 WORKDIR /app
@@ -13,31 +13,26 @@ RUN go mod download
 # Copy the rest of the sources
 COPY . .
 
-# Build the service binary (select service by build arg)
-ARG SERVICE_NAME=auth
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o /out/server ./${SERVICE_NAME}/cmd/${SERVICE_NAME}
+# Build the auth service binary
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o /out/server ./auth/cmd/auth
 
 # Runtime stage
-FROM alpine:3.20
+FROM gcr.io/distroless/static:nonroot
 WORKDIR /app
-
-RUN adduser -D -H -u 10001 appuser \
-    && apk add --no-cache ca-certificates
 
 ENV PORT=8080
 EXPOSE 8080
 
 COPY --from=builder /out/server /app/server
-COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
 
-# Prepare writable configs directory for non-root user
-RUN mkdir -p /app/configs && chown -R appuser:appuser /app
+# Copy runtime configs from repo root
+COPY ./configs/auth /app/configs/auth
 
-USER appuser
+USER nonroot:nonroot
 
-# Re-declare build arg in this stage and export to runtime ENV (can be overridden by Railway Variables)
-ARG SERVICE_NAME=auth
-ENV SERVICE_NAME=${SERVICE_NAME}
+ENTRYPOINT ["/app/server"]
+CMD ["-config=/app/configs/auth/config.yaml","-secrets=/app/configs/auth/secrets.yaml"]
 
-ENTRYPOINT ["/app/entrypoint.sh"]
+
+
+
