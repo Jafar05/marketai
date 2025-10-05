@@ -14,11 +14,11 @@ probes:
   prometheusPath: "/metrics"
   checkIntervalSeconds: 10
 grpc:
-  port: :5040
+  port: ${GRPC_SERVER_PORT}
 postgres:
-  host: shuttle.proxy.rlwy.net
-  port: "39315"
-  dbName: railway
+  host: ${POSTGRES_HOST}
+  port: ${POSTGRES_PORT}
+  dbName: ${POSTGRES_DB_NAME}
   sslMode: "disable"
   maxConn: 10
   minConn: 2
@@ -31,4 +31,4 @@ tracing:
   sampleRatio: 1.0
 
 # JWT секрет для всех сервисов
-jwt_secret: "your-super-secret-jwt-key-here"
+jwt_secret: ${JWT_SECRET}

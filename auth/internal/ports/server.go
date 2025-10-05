@@ -16,7 +16,7 @@ import (
 func App() fx.Option {
 	return fx.Options(
 		bootstrap.AppOptions[*config.Config](
-			bootstrap.WithSecrets[*config.Secrets](config.MapSecrets),
+			bootstrap.WithSecrets[*config.Secrets](config.MapConfig),
 			bootstrap.WithEcho[*config.Config](registerRoutes),
 			grpc.Server[*config.Config](
 				grpc.WithListener(),
