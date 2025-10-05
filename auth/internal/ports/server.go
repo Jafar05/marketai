@@ -14,24 +14,26 @@ import (
 )
 
 func App() fx.Option {
-	return bootstrap.AppOptions[*config.Config](
-		bootstrap.WithSecrets[*config.Secrets](config.MapSecrets),
-		bootstrap.WithEcho[*config.Config](registerRoutes),
-		grpc.Server[*config.Config](
-			grpc.WithListener(),
-			grpc.WithRegisterFunc(auth_grpc_api.RegisterAuthServiceServer),
-		),
-		postgresql.Connection[*config.Config](
-			postgresql.WithBindataMigrate(
-				migrations.AssetNames(),
-				migrations.Asset,
+	return fx.Options(
+		bootstrap.AppOptions[*config.Config](
+			bootstrap.WithSecrets[*config.Secrets](config.MapSecrets),
+			bootstrap.WithEcho[*config.Config](registerRoutes),
+			grpc.Server[*config.Config](
+				grpc.WithListener(),
+				grpc.WithRegisterFunc(auth_grpc_api.RegisterAuthServiceServer),
+			),
+			postgresql.Connection[*config.Config](
+				postgresql.WithBindataMigrate(
+					migrations.AssetNames(),
+					migrations.Asset,
+				),
+			),
+			fx.Provide(
+				app.NewAppCQRS,
+				postgres.NewAuthRepository,
+				newGrpcServer,
 			),
 		),
-		fx.Provide(
-			config.LoadConfig, // Здесь регистрируем LoadConfig как провайдер *config.Config
-			app.NewAppCQRS,
-			postgres.NewAuthRepository,
-			newGrpcServer,
-		),
+		fx.Replace(config.LoadConfig()),
 	)
 }
