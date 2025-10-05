@@ -8,24 +8,13 @@ import (
 	auth_grpc_api "marketai/auth/proto/generated-source"
 	"marketai/pkg/bootstrap"
 	"marketai/pkg/grpc"
-	"marketai/pkg/logger"
 	"marketai/pkg/postgresql"
 
-	"github.com/go-playground/validator"
 	"go.uber.org/fx"
 )
 
-func AppOptionsCustom(cfg *config.Config, opts ...fx.Option) fx.Option {
-	return fx.Options(
-		fx.Provide(func() *config.Config {
-			return cfg
-		}),
-		fx.Options(opts...),
-	)
-}
-
-func App(cfg *config.Config) fx.Option {
-	return AppOptionsCustom(cfg,
+func App() fx.Option {
+	return bootstrap.AppOptions[*config.Config](
 		bootstrap.WithSecrets[*config.Secrets](config.MapSecrets),
 		bootstrap.WithEcho[*config.Config](registerRoutes),
 		grpc.Server[*config.Config](
@@ -39,15 +28,10 @@ func App(cfg *config.Config) fx.Option {
 			),
 		),
 		fx.Provide(
+			config.LoadConfig, // Здесь регистрируем LoadConfig как провайдер *config.Config
 			app.NewAppCQRS,
 			postgres.NewAuthRepository,
 			newGrpcServer,
-			func() logger.AppLog {
-				return logger.NewNop()
-			},
-			func() *validator.Validate {
-				return validator.New()
-			},
 		),
 	)
 }
