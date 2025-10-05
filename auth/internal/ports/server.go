@@ -8,8 +8,10 @@ import (
 	auth_grpc_api "marketai/auth/proto/generated-source"
 	"marketai/pkg/bootstrap"
 	"marketai/pkg/grpc"
+	"marketai/pkg/logger"
 	"marketai/pkg/postgresql"
 
+	"github.com/go-playground/validator"
 	"go.uber.org/fx"
 )
 
@@ -40,6 +42,12 @@ func App(cfg *config.Config) fx.Option {
 			app.NewAppCQRS,
 			postgres.NewAuthRepository,
 			newGrpcServer,
+			func() logger.AppLog {
+				return logger.NewNop()
+			},
+			func() *validator.Validate {
+				return validator.New()
+			},
 		),
 	)
 }
