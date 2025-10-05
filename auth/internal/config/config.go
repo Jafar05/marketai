@@ -1,10 +1,6 @@
 package config
 
 import (
-	"fmt"
-	"log"
-
-	"github.com/spf13/viper"
 	"marketai/pkg/bootstrap"
 	"marketai/pkg/grpc"
 	"marketai/pkg/logger"
@@ -61,40 +57,4 @@ func WithServerConfig(c *Config) *ServerConfig {
 		Postgres: c.Postgres,
 		Probes:   c.Probes,
 	}
-}
-
-func LoadConfig() *Config {
-	viper.AutomaticEnv()
-
-	viper.BindEnv("http.port", "HTTP_PORT")
-	// Добавьте дополнительные BindEnv для других полей, если нужно, например:
-	// viper.BindEnv("jwt_secret", "JWT_SECRET")
-
-	viper.SetConfigFile("configs/auth/config.yaml")
-	err := viper.ReadInConfig()
-	if err != nil {
-		log.Fatalf("Ошибка загрузки конфига: %v", err)
-	}
-
-	var cfg Config
-	err = viper.Unmarshal(&cfg)
-	if err != nil {
-		log.Fatalf("Ошибка разбора конфига: %v", err)
-	}
-
-	// Пример обработки переопределения для http.port (если нужно)
-	port := viper.GetString("http.port")
-	fmt.Println("port==", port)
-	if port != "" {
-		// Если нужно перезаписать в cfg, но поскольку Unmarshal уже сделал это, это может быть избыточно
-		cfg.Http.Port = port // Предполагая, что HttpConfig имеет поле Port типа string
-	}
-
-	// Здесь можно добавить валидацию, если есть пакет validator
-	// validate := validator.New()
-	// if err := validate.Struct(&cfg); err != nil {
-	// 	log.Fatalf("Ошибка валидации конфига: %v", err)
-	// }
-
-	return &cfg
 }

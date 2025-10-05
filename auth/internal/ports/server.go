@@ -34,8 +34,5 @@ func App() fx.Option {
 				newGrpcServer,
 			),
 		),
-		fx.Decorate(func(old *config.Config) *config.Config {
-			return config.LoadConfig() // Игнорируем старый конфиг и загружаем новый с Viper и env
-		}),
 	)
 }
