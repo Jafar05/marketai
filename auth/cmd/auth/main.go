@@ -8,6 +8,6 @@ import (
 )
 
 func main() {
-	config.LoadConfig()
-	fx.New(ports.App()).Run()
+	cfg := config.LoadConfig()
+	fx.New(ports.App(cfg)).Run()
 }

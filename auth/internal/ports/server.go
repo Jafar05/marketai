@@ -13,24 +13,29 @@ import (
 	"go.uber.org/fx"
 )
 
-func App() fx.Option {
-	return bootstrap.AppOptions[*config.Config](
+func AppOptionsCustom(cfg interface{}, opts ...fx.Option) fx.Option {
+	return fx.Options(
+		fx.Provide(func() interface{} {
+			return cfg
+		}),
+		fx.Options(opts...),
+	)
+}
+
+func App(cfg *config.Config) fx.Option {
+	return AppOptionsCustom(cfg,
 		bootstrap.WithSecrets[*config.Secrets](config.MapSecrets),
-
 		bootstrap.WithEcho[*config.Config](registerRoutes),
-
 		grpc.Server[*config.Config](
 			grpc.WithListener(),
 			grpc.WithRegisterFunc(auth_grpc_api.RegisterAuthServiceServer),
 		),
-
 		postgresql.Connection[*config.Config](
 			postgresql.WithBindataMigrate(
 				migrations.AssetNames(),
 				migrations.Asset,
 			),
 		),
-
 		fx.Provide(
 			app.NewAppCQRS,
 			postgres.NewAuthRepository,
