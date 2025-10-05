@@ -13,9 +13,9 @@ import (
 	"go.uber.org/fx"
 )
 
-func AppOptionsCustom(cfg interface{}, opts ...fx.Option) fx.Option {
+func AppOptionsCustom(cfg *config.Config, opts ...fx.Option) fx.Option {
 	return fx.Options(
-		fx.Provide(func() interface{} {
+		fx.Provide(func() *config.Config {
 			return cfg
 		}),
 		fx.Options(opts...),
