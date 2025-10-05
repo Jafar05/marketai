@@ -2,6 +2,8 @@
 // sources:
 // 1_user_migration.down.sql (27B)
 // 1_user_migration.up.sql (316B)
+// 2_add_phoneNumber.down.sql (53B)
+// 2_add_phoneNumber.up.sql (88B)
 
 package migrations
 
@@ -84,7 +86,7 @@ func _1_user_migrationDownSql() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "1_user_migration.down.sql", size: 27, mode: os.FileMode(0644), modTime: time.Unix(1752317607, 0)}
+	info := bindataFileInfo{name: "1_user_migration.down.sql", size: 27, mode: os.FileMode(0644), modTime: time.Unix(1753518082, 0)}
 	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x29, 0xd, 0x7f, 0xc1, 0x6d, 0x5b, 0xd8, 0x3c, 0xca, 0xe9, 0xdb, 0x8a, 0x4b, 0xb6, 0x88, 0x66, 0xb4, 0x18, 0xe9, 0x85, 0x7e, 0xbb, 0x50, 0x92, 0x99, 0x55, 0x4c, 0xc5, 0x69, 0x4d, 0x37, 0x25}}
 	return a, nil
 }
@@ -104,8 +106,48 @@ func _1_user_migrationUpSql() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "1_user_migration.up.sql", size: 316, mode: os.FileMode(0644), modTime: time.Unix(1753037986, 0)}
+	info := bindataFileInfo{name: "1_user_migration.up.sql", size: 316, mode: os.FileMode(0644), modTime: time.Unix(1759397652, 0)}
 	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x6b, 0xf3, 0xd, 0xc1, 0xaa, 0x2e, 0x92, 0xca, 0x27, 0xc9, 0x4e, 0x1e, 0xbb, 0x52, 0x4b, 0x94, 0x54, 0xea, 0xa1, 0x34, 0xac, 0x1a, 0x1e, 0x9d, 0x34, 0x11, 0x37, 0x13, 0x73, 0x8c, 0xac, 0x34}}
+	return a, nil
+}
+
+var __2_add_phonenumberDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\x2d\x4e\x2d\x2a\x56\x70\x09\xf2\x0f\x50\x70\xf6\xf7\x09\xf5\xf5\x53\xf0\x74\x53\x70\x8d\xf0\x0c\x0e\x09\x56\x28\xc8\xc8\xcf\x4b\x8d\xcf\x2b\xcd\x4d\x4a\x2d\xb2\x06\x04\x00\x00\xff\xff\xd9\x99\x83\xec\x35\x00\x00\x00")
+
+func _2_add_phonenumberDownSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__2_add_phonenumberDownSql,
+		"2_add_phoneNumber.down.sql",
+	)
+}
+
+func _2_add_phonenumberDownSql() (*asset, error) {
+	bytes, err := _2_add_phonenumberDownSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "2_add_phoneNumber.down.sql", size: 53, mode: os.FileMode(0644), modTime: time.Unix(1759682067, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x8f, 0xeb, 0x1a, 0x9f, 0xb, 0x9, 0xb8, 0x66, 0x1f, 0x9, 0x8f, 0x56, 0xaf, 0xd3, 0x3d, 0xd8, 0xbc, 0xfc, 0xfb, 0xef, 0xad, 0x5f, 0x7a, 0x23, 0x6c, 0x20, 0xbd, 0xae, 0xb0, 0x93, 0x5b, 0x89}}
+	return a, nil
+}
+
+var __2_add_phonenumberUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\x2d\x4e\x2d\x2a\x56\x70\x74\x71\x51\x70\xf6\xf7\x09\xf5\xf5\x53\xf0\x74\x53\xf0\xf3\x0f\x51\x70\x8d\xf0\x0c\x0e\x09\x56\x28\xc8\xc8\xcf\x4b\x8d\xcf\x2b\xcd\x4d\x4a\x2d\x52\x08\x73\x0c\x72\xf6\x70\x0c\xd2\x30\x35\xd0\x04\xab\xf1\x0b\xf5\xf1\x51\x70\x71\x75\x73\x0c\xf5\x09\x51\x50\x57\xb7\x06\x04\x00\x00\xff\xff\x26\xa6\x39\xe3\x58\x00\x00\x00")
+
+func _2_add_phonenumberUpSqlBytes() ([]byte, error) {
+	return bindataRead(
+		__2_add_phonenumberUpSql,
+		"2_add_phoneNumber.up.sql",
+	)
+}
+
+func _2_add_phonenumberUpSql() (*asset, error) {
+	bytes, err := _2_add_phonenumberUpSqlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "2_add_phoneNumber.up.sql", size: 88, mode: os.FileMode(0644), modTime: time.Unix(1759682074, 0)}
+	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xfc, 0xbc, 0x92, 0xa7, 0x2e, 0x5, 0x70, 0x1b, 0x7f, 0xbf, 0xc8, 0x28, 0x66, 0x38, 0xfa, 0x5a, 0xa7, 0xac, 0xbf, 0x7a, 0x32, 0xd3, 0x14, 0x3c, 0x1b, 0x6, 0x5b, 0xfe, 0x9b, 0xc4, 0xf5, 0x9b}}
 	return a, nil
 }
 
@@ -200,8 +242,10 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() (*asset, error){
-	"1_user_migration.down.sql": _1_user_migrationDownSql,
-	"1_user_migration.up.sql":   _1_user_migrationUpSql,
+	"1_user_migration.down.sql":  _1_user_migrationDownSql,
+	"1_user_migration.up.sql":    _1_user_migrationUpSql,
+	"2_add_phoneNumber.down.sql": _2_add_phonenumberDownSql,
+	"2_add_phoneNumber.up.sql":   _2_add_phonenumberUpSql,
 }
 
 // AssetDebug is true if the assets were built with the debug flag enabled.
@@ -250,8 +294,10 @@ type bintree struct {
 }
 
 var _bintree = &bintree{nil, map[string]*bintree{
-	"1_user_migration.down.sql": {_1_user_migrationDownSql, map[string]*bintree{}},
-	"1_user_migration.up.sql":   {_1_user_migrationUpSql, map[string]*bintree{}},
+	"1_user_migration.down.sql":  {_1_user_migrationDownSql, map[string]*bintree{}},
+	"1_user_migration.up.sql":    {_1_user_migrationUpSql, map[string]*bintree{}},
+	"2_add_phoneNumber.down.sql": {_2_add_phonenumberDownSql, map[string]*bintree{}},
+	"2_add_phoneNumber.up.sql":   {_2_add_phonenumberUpSql, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory.

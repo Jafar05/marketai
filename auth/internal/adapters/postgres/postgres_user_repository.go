@@ -19,7 +19,6 @@ func NewAuthRepository(conn *pgxpool.Pool) *AuthRepository {
 	return &AuthRepository{conn: conn}
 }
 
-// GetUserByUsername получает пользователя по email пользователя из базы данных.
 func (r *AuthRepository) GetUserByUsername(ctx context.Context, email string) (*domain.User, error) {
 
 	user := &domain.User{}
@@ -41,16 +40,16 @@ func (r *AuthRepository) GetUserByUsername(ctx context.Context, email string) (*
 	return user, nil
 }
 
-// CreateUser создает нового пользователя в базе данных.
 func (r *AuthRepository) CreateUser(ctx context.Context, user *domain.User) error {
 
 	err := r.conn.QueryRow(ctx, createUser,
 		user.Email,
 		user.PasswordHash,
+		user.PhoneNumber,
 		user.Role,
 		user.CreatedAt,
 		user.UpdatedAt,
-	).Scan(&user.ID) // Получаем сгенерированный ID
+	).Scan(&user.ID)
 	if err != nil {
 		return fmt.Errorf("не удалось создать пользователя: %w", err)
 	}
