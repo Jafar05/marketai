@@ -11,7 +11,7 @@ func LoadConfig() {
 
 	viper.BindEnv("http.port", "HTTP_PORT")
 
-	viper.SetConfigFile("config.yaml")
+	viper.SetConfigFile("configs/auth/config.yaml")
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.Fatalf("Ошибка загрузки конфига: %v", err)
