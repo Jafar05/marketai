@@ -14,8 +14,6 @@ import (
 )
 
 func App() fx.Option {
-	cfg := config.LoadConfig() // Загружаем конфиг здесь (выполнится при вызове App() в main)
-
 	return fx.Options(
 		bootstrap.AppOptions[*config.Config](
 			bootstrap.WithSecrets[*config.Secrets](config.MapSecrets),
@@ -36,6 +34,8 @@ func App() fx.Option {
 				newGrpcServer,
 			),
 		),
-		fx.Replace(cfg), // Заменяем дефолтный *config.Config на наш загруженный
+		fx.Decorate(func(old *config.Config) *config.Config {
+			return config.LoadConfig() // Игнорируем старый конфиг и загружаем новый с Viper и env
+		}),
 	)
 }
