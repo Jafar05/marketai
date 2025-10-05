@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/spf13/viper"
@@ -17,8 +18,9 @@ func LoadConfig() {
 		log.Fatalf("Ошибка загрузки конфига: %v", err)
 	}
 
-	// port := viper.GetString("http.port")
-	// if port != "" {
-	// 	viper.Set("http.port", port)
-	// }
+	port := viper.GetString("http.port")
+	fmt.Println("port==", port)
+	if port != "" {
+		viper.Set("http.port", port)
+	}
 }
