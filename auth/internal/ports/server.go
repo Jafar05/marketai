@@ -14,6 +14,8 @@ import (
 )
 
 func App() fx.Option {
+	cfg := config.LoadConfig() // Загружаем конфиг здесь (выполнится при вызове App() в main)
+
 	return fx.Options(
 		bootstrap.AppOptions[*config.Config](
 			bootstrap.WithSecrets[*config.Secrets](config.MapSecrets),
@@ -34,6 +36,6 @@ func App() fx.Option {
 				newGrpcServer,
 			),
 		),
-		fx.Replace(config.LoadConfig()),
+		fx.Replace(cfg), // Заменяем дефолтный *config.Config на наш загруженный
 	)
 }
