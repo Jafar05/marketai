@@ -7,6 +7,7 @@ import (
 
 type User struct {
 	ID           string    `json:"id"`
+	FullName     string    `json:"fullName"`
 	Email        string    `json:"email" validate:"required"`
 	PhoneNumber  string    `json:"phoneNumber" validate:"required"`
 	PasswordHash string    `json:"password" validate:"required`

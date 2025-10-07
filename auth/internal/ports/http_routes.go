@@ -29,8 +29,6 @@ type httpServer struct {
 // UserContextKey - ключ для хранения информации о пользователе в контексте запроса.
 type UserContextKey string
 
-const userContextKey UserContextKey = "user"
-
 func registerRoutes(s httpServer, a *app.AppCQRS) {
 	s.Echo.Use(middleware.CORS())
 	withAuth := s.Echo.Group(s.Config.Http.ApiBasePath)

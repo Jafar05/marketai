@@ -46,6 +46,7 @@ func (h *registerUserCommandHandler) Handle(ctx context.Context, cmd domain.User
 	}
 
 	newUser := &domain.User{
+		FullName:     cmd.FullName,
 		Email:        cmd.Email,
 		PasswordHash: string(hashedPassword),
 		PhoneNumber:  cmd.PhoneNumber,

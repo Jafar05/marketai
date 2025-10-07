@@ -43,6 +43,7 @@ func (r *AuthRepository) GetUserByUsername(ctx context.Context, email string) (*
 func (r *AuthRepository) CreateUser(ctx context.Context, user *domain.User) error {
 
 	err := r.conn.QueryRow(ctx, createUser,
+		user.FullName,
 		user.Email,
 		user.PasswordHash,
 		user.PhoneNumber,
