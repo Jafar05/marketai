@@ -33,7 +33,7 @@ func (h *registerUserCommandHandler) Handle(ctx context.Context, cmd domain.User
 
 	existingUser, err := h.pgRepo.GetUserByUsername(ctx, cmd.Email)
 	if err != nil {
-		return nil, fmt.Errorf("ошибка при проверке существования пользователя: %w", err)
+		return nil, err
 	}
 
 	if existingUser != nil {

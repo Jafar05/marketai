@@ -3,8 +3,6 @@ package postgres
 import (
 	"context"
 	"errors"
-	"fmt"
-
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
@@ -33,7 +31,7 @@ func (r *AuthRepository) GetUserByUsername(ctx context.Context, email string) (*
 
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, nil
+			return nil, err
 		}
 		return nil, err
 	}
@@ -41,7 +39,6 @@ func (r *AuthRepository) GetUserByUsername(ctx context.Context, email string) (*
 }
 
 func (r *AuthRepository) CreateUser(ctx context.Context, user *domain.User) error {
-
 	err := r.conn.QueryRow(ctx, createUser,
 		user.FullName,
 		user.Email,
@@ -52,7 +49,7 @@ func (r *AuthRepository) CreateUser(ctx context.Context, user *domain.User) erro
 		user.UpdatedAt,
 	).Scan(&user.ID)
 	if err != nil {
-		return fmt.Errorf("не удалось создать пользователя: %w", err)
+		return err
 	}
 	return nil
 }

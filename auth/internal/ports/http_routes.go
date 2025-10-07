@@ -86,7 +86,6 @@ func (rc *httpServer) registerHandler(a *app.AppCQRS) echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusBadRequest, "Неверный формат запроса")
 		}
 
-		// Установите роль по умолчанию, если не указана
 		if req.Role == "" {
 			req.Role = "user"
 		}
