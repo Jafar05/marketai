@@ -76,7 +76,7 @@ func (h *registerUserCommandHandler) Handle(ctx context.Context, cmd domain.User
 		return nil, fmt.Errorf("ошибка при создании токена подтверждения: %w", err)
 	}
 
-	link := fmt.Sprintf("https://marketai-backend-production.up.railway.app/verify-email?token=%s", token)
+	link := fmt.Sprintf("https://marketai-front-production.up.railway.app/verify-email?token=%s", token)
 	body := fmt.Sprintf("<h3>Подтвердите ваш email</h3><p><a href='%s'>Нажмите для подтверждения</a></p>", link)
 	if err := SendEmail(
 		h.cfg.SMTP.Host,
