@@ -7,6 +7,7 @@ type RegisterUserCommand struct {
 }
 
 type LoginCommand struct {
-	Email    string
-	Password string
+	Email       string
+	Password    string
+	PhoneNumber string
 }

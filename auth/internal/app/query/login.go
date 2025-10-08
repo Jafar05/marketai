@@ -35,7 +35,7 @@ func NewLoginCommandHandler(userRepo domain.UserRepository, cfg *config.Config) 
 }
 
 func (h *LoginCommandHandlerResult) Handle(ctx context.Context, cmd dto.LoginCommand) (*LoginCommandResult, error) {
-	user, err := h.userRepo.GetUserByUsername(ctx, cmd.Email)
+	user, err := h.userRepo.GetUserByUsername(ctx, cmd.Email, cmd.PhoneNumber)
 	if err != nil {
 		return nil, fmt.Errorf("ошибка при получении пользователя: %w", err)
 	}
@@ -52,6 +52,10 @@ func (h *LoginCommandHandlerResult) Handle(ctx context.Context, cmd dto.LoginCom
 	token, err := jwt.GenerateToken(user.ID, user.Role, h.config.JWTSecret, time.Hour*24)
 	if err != nil {
 		return nil, fmt.Errorf("ошибка при генерации JWT токена: %w", err)
+	}
+
+	if !user.EmailVerified {
+		return nil, errors.New("email не подтверждён")
 	}
 
 	return &LoginCommandResult{Token: token}, nil

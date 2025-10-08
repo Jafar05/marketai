@@ -37,6 +37,8 @@ func registerRoutes(s httpServer, a *app.AppCQRS) {
 	withAuth.Add(http.MethodPost, "/register", s.registerHandler(a))
 
 	withAuth.Add(http.MethodPost, "/validate", s.validateTokenHandler())
+
+	withAuth.Add(http.MethodGet, "/verify-email", s.verifyEmailHandler(a))
 }
 
 // @Summary		Аутентификация пользователя
@@ -119,5 +121,25 @@ func (rc *httpServer) validateTokenHandler() echo.HandlerFunc {
 		}
 
 		return c.JSON(http.StatusOK, response)
+	}
+}
+
+func (rc *httpServer) verifyEmailHandler(a *app.AppCQRS) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		token := c.QueryParam("token")
+		if token == "" {
+			return echo.NewHTTPError(http.StatusBadRequest, "missing token")
+		}
+
+		ctx := c.Request().Context()
+		userID, err := a.Commands.EmailVerification.Handle(ctx, token)
+		if err != nil {
+			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		}
+
+		return c.JSON(http.StatusOK, map[string]string{
+			"message": "Email успешно подтверждён",
+			"user_id": userID,
+		})
 	}
 }

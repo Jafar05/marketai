@@ -1,8 +1,10 @@
 package config
 
 import (
+	"fmt"
 	"marketai/pkg/postgresql"
 	"os"
+	"strconv"
 
 	"github.com/joho/godotenv"
 )
@@ -32,6 +34,14 @@ func mapEnv(config *Config, secrets *Secrets) {
 	postgresDbUser := os.Getenv("POSTGRES_DB_USER")
 	postgresDbPassword := os.Getenv("POSTGRES_DB_PASSWORD")
 
+	smtpHost := os.Getenv("SMTP_HOST")
+	smtpPort := os.Getenv("SMTP_PORT")
+	smtpUser := os.Getenv("SMTP_USER")
+	smtpPassword := os.Getenv("SMTP_PASS")
+	smtpFrom := os.Getenv("SMTP_FROM")
+	smtPortValue, _ := strconv.Atoi(smtpPort)
+	fmt.Println("smtPortValue===", smtPortValue)
+
 	config.Http.Port = httpPort
 	config.GrpcServer.Port = grpcPort
 	config.JWTSecret = jwtSecret
@@ -40,4 +50,10 @@ func mapEnv(config *Config, secrets *Secrets) {
 	config.Postgres.DBName = postgresDbName
 	secrets.Postgres.User = postgresDbUser
 	secrets.Postgres.Password = postgresDbPassword
+
+	config.SMTP.Host = smtpHost
+	config.SMTP.Port = smtPortValue
+	config.SMTP.Username = smtpUser
+	config.SMTP.Password = smtpPassword
+	config.SMTP.From = smtpFrom
 }

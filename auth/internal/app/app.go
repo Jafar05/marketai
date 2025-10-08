@@ -8,7 +8,8 @@ import (
 )
 
 type Commands struct {
-	Register command.RegisterCommandHandler
+	Register          command.RegisterCommandHandler
+	EmailVerification command.VerifyEmailCommandHandler
 }
 
 type Queries struct {
@@ -23,11 +24,14 @@ type AppCQRS struct {
 
 func NewAppCQRS(
 	userRepo *postgres.AuthRepository,
+	verificateRepo *postgres.EmailVerificationRepository,
+	emailRepo *postgres.EmailVerificationRepository,
 	cfg *config.Config,
 ) *AppCQRS {
 	return &AppCQRS{
 		Commands: Commands{
-			Register: command.NewRegisterUserCommandHandler(userRepo),
+			Register:          command.NewRegisterUserCommandHandler(userRepo, emailRepo, cfg),
+			EmailVerification: command.NewVerifyEmailCommandHandler(emailRepo, userRepo),
 		},
 		Queries: Queries{
 			Login:          query.NewLoginCommandHandler(userRepo, cfg),

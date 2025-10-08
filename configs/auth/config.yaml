@@ -29,6 +29,13 @@ tracing:
   enabled: false
   endpoint: ""
   sampleRatio: 1.0
+smtp:
+  smtp_host: ${SMTP_HOST}
+  smtp_port: 587
+  smtp_user: ${SMTP_USER}
+  smtp_password: ${SMTP_PASS}
+  smtp_from: ${SMTP_FROM}
+
 
 # JWT секрет для всех сервисов
 jwt_secret: ${JWT_SECRET}
