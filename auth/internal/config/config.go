@@ -21,7 +21,7 @@ type (
 
 		SMTP struct {
 			Host     string `mapstructure:"smtp_host"`
-			Port     int    `mapstructure:"smtp_port"`
+			Port     string `mapstructure:"smtp_port"`
 			Username string `mapstructure:"smtp_user"`
 			Password string `mapstructure:"smtp_password"`
 			From     string `mapstructure:"smtp_from"`

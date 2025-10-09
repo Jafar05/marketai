@@ -8,6 +8,7 @@ import (
 	"gopkg.in/gomail.v2"
 	"marketai/auth/internal/adapters/postgres"
 	"marketai/auth/internal/config"
+	"strconv"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -78,9 +79,12 @@ func (h *registerUserCommandHandler) Handle(ctx context.Context, cmd domain.User
 
 	link := fmt.Sprintf("https://marketai-front-production.up.railway.app?token=%s", token)
 	body := fmt.Sprintf("<h3>Подтвердите ваш email</h3><p><a href='%s'>Нажмите для подтверждения</a></p>", link)
+
+	smtpPort, _ := strconv.Atoi(h.cfg.SMTP.Port)
+
 	if err := SendEmail(
 		h.cfg.SMTP.Host,
-		h.cfg.SMTP.Port,
+		smtpPort,
 		h.cfg.SMTP.Username,
 		h.cfg.SMTP.Password,
 		h.cfg.SMTP.From,
