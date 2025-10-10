@@ -12,10 +12,13 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	domain "marketai/auth/internal/domain"
+	"marketai/pkgAuth/jwt"
 )
 
 type RegisterUserCommandResult struct {
 	UserID string
+	Token  string
+	User   *domain.User
 }
 
 type RegisterCommandHandler interface {
@@ -66,5 +69,15 @@ func (h *registerUserCommandHandler) Handle(ctx context.Context, cmd domain.User
 		return nil, fmt.Errorf("ошибка при сохранении пользователя: %w", err)
 	}
 
-	return &RegisterUserCommandResult{UserID: newUser.ID}, nil
+	// Генерируем JWT токен для нового пользователя
+	token, err := jwt.GenerateToken(newUser.ID, newUser.Role, h.cfg.JWTSecret, time.Hour*24)
+	if err != nil {
+		return nil, fmt.Errorf("ошибка при генерации JWT токена: %w", err)
+	}
+
+	return &RegisterUserCommandResult{
+		UserID: newUser.ID,
+		Token:  token,
+		User:   newUser,
+	}, nil
 }

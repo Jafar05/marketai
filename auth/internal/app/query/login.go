@@ -15,7 +15,9 @@ import (
 )
 
 type LoginCommandResult struct {
-	Token string
+	Token    string
+	UserID   string
+	FullName string
 }
 
 type LoginCommandHandlerResult struct {
@@ -54,5 +56,9 @@ func (h *LoginCommandHandlerResult) Handle(ctx context.Context, cmd dto.LoginCom
 		return nil, fmt.Errorf("ошибка при генерации JWT токена: %w", err)
 	}
 
-	return &LoginCommandResult{Token: token}, nil
+	return &LoginCommandResult{
+		Token:    token,
+		UserID:   user.ID,
+		FullName: user.FullName,
+	}, nil
 }

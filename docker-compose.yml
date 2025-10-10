@@ -5,35 +5,74 @@ services:
     image: postgres:15
     container_name: postgres
     restart: always
-    env_file:
-      - .env
+    environment:
+      POSTGRES_DB: marketai
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
-  backend:
-    build: ./backend
-    container_name: backend
+  auth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: auth
+        BUILD_PATH: ./auth/cmd/auth
+        BINARY_NAME: auth-service
+    container_name: auth-service
     restart: always
     depends_on:
       - postgres
     env_file:
-      - .env
+      - ./auth/.env
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB_NAME: marketai
+      POSTGRES_DB_USER: postgres
+      POSTGRES_DB_PASSWORD: password
     ports:
       - "8080:8080"
 
+  cards-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: cards
+        BUILD_PATH: ./cards/cmd/cards
+        BINARY_NAME: cards-service
+    container_name: cards-service
+    restart: always
+    depends_on:
+      - postgres
+      - auth-service
+    env_file:
+      - ./cards/.env
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB_NAME: marketai_cards
+      POSTGRES_DB_USER: postgres
+      POSTGRES_DB_PASSWORD: password
+      AUTH_GRPC_ENDPOINT: auth-service:50051
+    ports:
+      - "8081:8081"
+
   frontend:
     build:
-      context: ./frontend
+      context: ./marketai-front
       args:
-        VITE_API_URL: ${VITE_API_URL}
+        VITE_API_URL: http://localhost:8080
+        VITE_CARDS_API_URL: http://localhost:8081
     container_name: frontend
     restart: always
     depends_on:
-      - backend
-    env_file:
-      - .env
+      - auth-service
+      - cards-service
     ports:
       - "3000:80"
 

@@ -12,6 +12,17 @@ message GetUserDataResponse {
     string email = 1;
 }
 
+message ValidateTokenRequest {
+    string token = 1;
+}
+
+message ValidateTokenResponse {
+    bool valid = 1;
+    string user_id = 2;
+    string role = 3;
+}
+
 service AuthService {
     rpc GetUserData(GetUserDataRequest) returns (GetUserDataResponse);
+    rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
 }

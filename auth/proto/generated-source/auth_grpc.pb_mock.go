@@ -55,6 +55,26 @@ func (mr *MockAuthServiceClientMockRecorder) GetUserData(ctx, in interface{}, op
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserData", reflect.TypeOf((*MockAuthServiceClient)(nil).GetUserData), varargs...)
 }
 
+// ValidateToken mocks base method.
+func (m *MockAuthServiceClient) ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ValidateToken", varargs...)
+	ret0, _ := ret[0].(*ValidateTokenResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ValidateToken indicates an expected call of ValidateToken.
+func (mr *MockAuthServiceClientMockRecorder) ValidateToken(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateToken", reflect.TypeOf((*MockAuthServiceClient)(nil).ValidateToken), varargs...)
+}
+
 // MockAuthServiceServer is a mock of AuthServiceServer interface.
 type MockAuthServiceServer struct {
 	ctrl     *gomock.Controller
@@ -91,6 +111,21 @@ func (m *MockAuthServiceServer) GetUserData(arg0 context.Context, arg1 *GetUserD
 func (mr *MockAuthServiceServerMockRecorder) GetUserData(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserData", reflect.TypeOf((*MockAuthServiceServer)(nil).GetUserData), arg0, arg1)
+}
+
+// ValidateToken mocks base method.
+func (m *MockAuthServiceServer) ValidateToken(arg0 context.Context, arg1 *ValidateTokenRequest) (*ValidateTokenResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ValidateToken", arg0, arg1)
+	ret0, _ := ret[0].(*ValidateTokenResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ValidateToken indicates an expected call of ValidateToken.
+func (mr *MockAuthServiceServerMockRecorder) ValidateToken(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateToken", reflect.TypeOf((*MockAuthServiceServer)(nil).ValidateToken), arg0, arg1)
 }
 
 // mustEmbedUnimplementedAuthServiceServer mocks base method.

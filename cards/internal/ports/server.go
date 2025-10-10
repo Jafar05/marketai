@@ -1,0 +1,27 @@
+package ports
+
+import (
+	"marketai/cards/internal/adapters"
+	"marketai/cards/internal/adapters/postgres"
+	"marketai/cards/internal/app"
+	"marketai/cards/internal/config"
+	"marketai/pkg/bootstrap"
+	"marketai/pkg/postgresql"
+
+	"go.uber.org/fx"
+)
+
+func App() fx.Option {
+	return fx.Options(
+		bootstrap.AppOptions[*config.Config](
+			bootstrap.WithEcho[*config.Config](registerRoutes),
+			postgresql.Connection[*config.Config](),
+			fx.Provide(
+				app.NewAppCQRS,
+				postgres.NewCardRepository,
+				adapters.NewAuthGRPCService,
+				adapters.NewOpenAIService,
+			),
+		),
+	)
+}

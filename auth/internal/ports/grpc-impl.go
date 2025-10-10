@@ -30,3 +30,21 @@ func (s *grpcServiceImpl) GetUserData(
 		Email: user.Email,
 	}, nil
 }
+
+func (s *grpcServiceImpl) ValidateToken(
+	ctx context.Context,
+	req *auth_grpc_api.ValidateTokenRequest,
+) (*auth_grpc_api.ValidateTokenResponse, error) {
+	user, err := s.appCQRS.Queries.GetUserByToken.Handle(ctx, req.Token)
+	if err != nil {
+		return &auth_grpc_api.ValidateTokenResponse{
+			Valid: false,
+		}, nil
+	}
+
+	return &auth_grpc_api.ValidateTokenResponse{
+		Valid:  true,
+		UserId: user.ID,
+		Role:   user.Role,
+	}, nil
+}

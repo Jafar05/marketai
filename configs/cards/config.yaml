@@ -1,0 +1,33 @@
+http:
+  port: ${HTTP_PORT}
+  api_base_path: "/api/v1"
+  readTimeout: 15s
+  writeTimeout: 0s
+  bodyLimitSkipPaths: []
+logger:
+  level: "info"
+  format: "json"
+postgres:
+  host: ${CARDS_POSTGRES_HOST}
+  port: ${CARDS_POSTGRES_PORT}
+  dbName: ${CARDS_POSTGRES_DB_NAME}
+  sslMode: "disable"
+  maxConn: 10
+  minConn: 2
+  healthCheckPeriodSeconds: 30
+  maxConnIdleTimeSeconds: 60
+  maxConnLifetimeSeconds: 300
+probes:
+  liveness_port: 8082
+  readiness_port: 8083
+tracing:
+  jaeger_endpoint: "http://localhost:14268/api/traces"
+  service_name: "cards-service"
+grpc:
+  port: 50052
+auth:
+  grpc_endpoint: "localhost:50051"
+
+ai:
+  openai_api_key: ${OPENAI_API_KEY}
+  model: "gpt-4.5"

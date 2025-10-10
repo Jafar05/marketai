@@ -17,7 +17,9 @@ type User struct {
 }
 
 type GetData struct {
+	ID    string `json:"id"`
 	Email string `json:"email"`
+	Role  string `json:"role"`
 }
 
 type UserRepository interface {

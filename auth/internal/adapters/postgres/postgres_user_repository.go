@@ -55,10 +55,11 @@ func (r *AuthRepository) CreateUser(ctx context.Context, user *domain.User) erro
 }
 
 func (r *AuthRepository) GetDataByToken(ctx context.Context, token string) (*domain.GetData, error) {
-	// var email string
-	// err := r.conn.Query(ctx, `
-	// 	SELECT email FROM users WHERE
-	// `)
-
-	return &domain.GetData{}, nil
+	// TODO: Реализовать валидацию токена и получение данных пользователя
+	// Пока возвращаем заглушку для тестирования
+	return &domain.GetData{
+		ID:    "test-user-id",
+		Email: "test@example.com",
+		Role:  "user",
+	}, nil
 }

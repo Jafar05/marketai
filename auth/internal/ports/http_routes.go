@@ -64,7 +64,14 @@ func (rc *httpServer) loginHandler(a *app.AppCQRS) echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusBadRequest, "Неверные учетные данные")
 		}
 
-		return c.JSON(http.StatusOK, map[string]string{"token": result.Token})
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"token": result.Token,
+			"user": map[string]interface{}{
+				"id":       result.UserID,
+				"email":    req.Email,
+				"fullname": result.FullName,
+			},
+		})
 	}
 }
 
@@ -97,7 +104,14 @@ func (rc *httpServer) registerHandler(a *app.AppCQRS) echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusConflict, fmt.Errorf("ошибка: %s", err.Error()), err)
 		}
 
-		return c.JSON(http.StatusOK, map[string]string{"user_id": result.UserID, "message": "Пользователь успешно зарегистрирован"})
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"token": result.Token,
+			"user": map[string]interface{}{
+				"id":       result.UserID,
+				"fullname": result.User.FullName,
+				"email":    result.User.Email,
+			},
+		})
 	}
 }
 
