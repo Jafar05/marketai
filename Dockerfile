@@ -49,4 +49,4 @@ ENV CONFIG_PATH=/app/configs
 EXPOSE 8080
 
 # Default command (can be overridden)
-CMD ["./auth-service"]
+CMD ["./${BINARY_NAME}", "--config", "/app/configs/${SERVICE_NAME}/config.yaml", "--secrets", "/app/configs/${SERVICE_NAME}/secrets.yaml"]

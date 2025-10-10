@@ -34,6 +34,7 @@ services:
       POSTGRES_DB_NAME: marketai
       POSTGRES_DB_USER: postgres
       POSTGRES_DB_PASSWORD: password
+    command: ["./auth-service", "--config", "/app/configs/auth/config.yaml", "--secrets", "/app/configs/auth/secrets.yaml"]
     ports:
       - "8080:8080"
 
@@ -59,6 +60,7 @@ services:
       POSTGRES_DB_USER: postgres
       POSTGRES_DB_PASSWORD: password
       AUTH_GRPC_ENDPOINT: auth-service:50051
+    command: ["./cards-service", "--config", "/app/configs/cards/config.yaml", "--secrets", "/app/configs/cards/secrets.yaml"]
     ports:
       - "8081:8081"
 
