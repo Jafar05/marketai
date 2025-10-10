@@ -15,6 +15,7 @@ import (
 func App() fx.Option {
 	return fx.Options(
 		bootstrap.AppOptions[*config.Config](
+			bootstrap.WithSecrets[*config.Secrets](config.MapConfig),
 			bootstrap.WithEcho[*config.Config](registerRoutes),
 			postgresql.Connection[*config.Config](),
 			fx.Provide(
