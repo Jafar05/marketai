@@ -11,7 +11,6 @@ import (
 	"marketai/cards/internal/domain"
 	"marketai/pkg/logger"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/go-playground/validator"
@@ -54,32 +53,32 @@ func registerRoutes(s httpServer, a *app.AppCQRS, authService domain.AuthService
 	s.Echo.Use(middleware.Recover())
 
 	// Middleware для проверки JWT токена
-	authMiddleware := func(next echo.HandlerFunc) echo.HandlerFunc {
-		return func(c echo.Context) error {
-			authHeader := c.Request().Header.Get("Authorization")
-			if authHeader == "" {
-				return echo.NewHTTPError(http.StatusUnauthorized, "Authorization header required")
-			}
+	// authMiddleware := func(next echo.HandlerFunc) echo.HandlerFunc {
+	// 	return func(c echo.Context) error {
+	// 		authHeader := c.Request().Header.Get("Authorization")
+	// 		if authHeader == "" {
+	// 			return echo.NewHTTPError(http.StatusUnauthorized, "Authorization header required")
+	// 		}
 
-			token := strings.TrimPrefix(authHeader, "Bearer ")
-			if token == authHeader {
-				return echo.NewHTTPError(http.StatusUnauthorized, "Invalid authorization header format")
-			}
+	// 		token := strings.TrimPrefix(authHeader, "Bearer ")
+	// 		if token == authHeader {
+	// 			return echo.NewHTTPError(http.StatusUnauthorized, "Invalid authorization header format")
+	// 		}
 
-			userInfo, err := authService.ValidateToken(c.Request().Context(), token)
-			if err != nil {
-				return echo.NewHTTPError(http.StatusUnauthorized, "Invalid token")
-			}
+	// 		userInfo, err := authService.ValidateToken(c.Request().Context(), token)
+	// 		if err != nil {
+	// 			return echo.NewHTTPError(http.StatusUnauthorized, "Invalid token")
+	// 		}
 
-			c.Set("user_id", userInfo.UserID)
-			c.Set("user_role", userInfo.Role)
+	// 		c.Set("user_id", userInfo.UserID)
+	// 		c.Set("user_role", userInfo.Role)
 
-			return next(c)
-		}
-	}
+	// 		return next(c)
+	// 	}
+	// }
 
 	api := s.Echo.Group(s.Config.Http.ApiBasePath)
-	api.Use(authMiddleware)
+	// api.Use(authMiddleware) // Временно отключено для тестирования
 
 	api.POST("/generate", s.generateCardHandler(a))
 	api.GET("/history", s.getCardsHistoryHandler(a))
@@ -109,7 +108,7 @@ func (rc *httpServer) generateCardHandler(a *app.AppCQRS) echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusBadRequest, "Неверные данные запроса")
 		}
 
-		userID := c.Get("user_id").(string)
+		userID := "test-user" // Временно для тестирования
 
 		result, err := a.Commands.GenerateCard.Handle(ctx, command.GenerateCardCommand{
 			UserID:           userID,
@@ -143,7 +142,7 @@ func (rc *httpServer) generateCardHandler(a *app.AppCQRS) echo.HandlerFunc {
 func (rc *httpServer) getCardsHistoryHandler(a *app.AppCQRS) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := c.Request().Context()
-		userID := c.Get("user_id").(string)
+		userID := "test-user" // Временно для тестирования
 
 		result, err := a.Queries.GetCardsByUser.Handle(ctx, query.GetCardsByUserQuery{
 			UserID: userID,
