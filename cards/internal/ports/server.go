@@ -5,6 +5,7 @@ import (
 	"marketai/cards/internal/adapters/postgres"
 	"marketai/cards/internal/app"
 	"marketai/cards/internal/config"
+	"marketai/cards/internal/domain"
 	"marketai/pkg/bootstrap"
 	"marketai/pkg/postgresql"
 
@@ -21,6 +22,12 @@ func App() fx.Option {
 				postgres.NewCardRepository,
 				adapters.NewAuthGRPCService,
 				adapters.NewOpenAIService,
+				fx.Annotate(
+					func(authService *adapters.AuthGRPCService) domain.AuthService {
+						return authService
+					},
+					fx.As(new(domain.AuthService)),
+				),
 			),
 		),
 	)

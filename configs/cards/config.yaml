@@ -5,8 +5,14 @@ http:
   writeTimeout: 0s
   bodyLimitSkipPaths: []
 logger:
-  level: "info"
-  format: "json"
+  level: debug
+  serviceName: cardsdb
+probes:
+  port: ":8061"
+  livenessPath: "/healthz"
+  readinessPath: "/readyz"
+  prometheusPath: "/metrics"
+  checkIntervalSeconds: 10
 postgres:
   host: ${CARDS_POSTGRES_HOST}
   port: ${CARDS_POSTGRES_PORT}
@@ -17,12 +23,10 @@ postgres:
   healthCheckPeriodSeconds: 30
   maxConnIdleTimeSeconds: 60
   maxConnLifetimeSeconds: 300
-probes:
-  liveness_port: 8082
-  readiness_port: 8083
 tracing:
-  jaeger_endpoint: "http://localhost:14268/api/traces"
-  service_name: "cards-service"
+  enabled: false
+  endpoint: ""
+  sampleRatio: 1.0
 grpc:
   port: 50052
 auth:
