@@ -44,9 +44,11 @@ COPY --from=builder /app/configs/ ./configs/
 # Set default environment variables
 ENV PORT=8080
 ENV CONFIG_PATH=/app/configs
+ENV SERVICE_NAME=auth
+ENV BINARY_NAME=auth-service
 
 # Expose default port (can be overridden)
 EXPOSE 8080
 
 # Default command (can be overridden)
-CMD ["./${BINARY_NAME}", "--config", "/app/configs/${SERVICE_NAME}/config.yaml", "--secrets", "/app/configs/${SERVICE_NAME}/secrets.yaml"]
+CMD ["./auth-service", "--config", "/app/configs/auth/config.yaml", "--secrets", "/app/configs/auth/secrets.yaml"]
