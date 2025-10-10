@@ -5,10 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/jackc/pgx/v5"
-	"gopkg.in/gomail.v2"
+	"github.com/mailersend/mailersend-go" // Новый импорт для MailerSend (замена Mailjet)
 	"marketai/auth/internal/adapters/postgres"
 	"marketai/auth/internal/config"
-	"strconv"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -80,13 +79,9 @@ func (h *registerUserCommandHandler) Handle(ctx context.Context, cmd domain.User
 	link := fmt.Sprintf("https://marketai-front-production.up.railway.app?token=%s", token)
 	body := fmt.Sprintf("<h3>Подтвердите ваш email</h3><p><a href='%s'>Нажмите для подтверждения</a></p>", link)
 
-	smtpPort, _ := strconv.Atoi(h.cfg.SMTP.Port)
-
-	if err := SendEmail(
-		h.cfg.SMTP.Host,
-		smtpPort,
-		h.cfg.SMTP.Username,
-		h.cfg.SMTP.Password,
+	if err := SendConfirmationEmail(
+		ctx,
+		h.cfg.SMTP.MailerSendAPIKey,
 		h.cfg.SMTP.From,
 		newUser.Email,
 		"Подтверждение email",
@@ -98,13 +93,22 @@ func (h *registerUserCommandHandler) Handle(ctx context.Context, cmd domain.User
 	return &RegisterUserCommandResult{UserID: newUser.ID}, nil
 }
 
-func SendEmail(host string, port int, username, password, from, to, subject, htmlBody string) error {
-	m := gomail.NewMessage()
-	m.SetHeader("From", from)
-	m.SetHeader("To", to)
-	m.SetHeader("Subject", subject)
-	m.SetBody("text/html", htmlBody)
+func SendConfirmationEmail(ctx context.Context, apiKey, from, to, subject, htmlBody string) error {
+	ms := mailersend.NewMailersend(apiKey)
 
-	d := gomail.NewDialer(host, port, username, password)
-	return d.DialAndSend(m)
+	message := &mailersend.Message{
+		From: mailersend.Recipient{
+			Email: from,
+			Name:  "market ai", // Можно изменить на имя отправителя
+		},
+		Subject: subject,
+		HTML:    htmlBody,
+		// Text: "Простой текст версии, если нужно", // Опционально, для fallback
+	}
+
+	_, err := ms.Email.Send(ctx, message)
+	if err != nil {
+		return fmt.Errorf("ошибка отправки через MailerSend: %w", err)
+	}
+	return nil
 }

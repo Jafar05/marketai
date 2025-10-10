@@ -30,10 +30,7 @@ tracing:
   endpoint: ""
   sampleRatio: 1.0
 smtp:
-  smtp_host: ${SMTP_HOST}
-  smtp_port: ${SMTP_PORT}
-  smtp_user: ${SMTP_USER}
-  smtp_password: ${SMTP_PASS}
+  smtp_mailer_send_api_key: ${SMTP_MAILER_API_KEY}
   smtp_from: ${SMTP_FROM}
 
 

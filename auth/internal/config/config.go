@@ -20,11 +20,8 @@ type (
 		JWTSecret string `mapstructure:"jwt_secret" env:"JWT_SECRET"`
 
 		SMTP struct {
-			Host     string `mapstructure:"smtp_host"`
-			Port     string `mapstructure:"smtp_port"`
-			Username string `mapstructure:"smtp_user"`
-			Password string `mapstructure:"smtp_password"`
-			From     string `mapstructure:"smtp_from"`
+			MailerSendAPIKey string `mapstructure:"smtp_mailer_send_api_key"`
+			From             string `mapstructure:"smtp_from"`
 		} `mapstructure:"smtp"`
 	}
 
@@ -57,12 +54,4 @@ func (c *Config) TracingConfig() *bootstrap.TracingConfig {
 
 func (c *Config) GrpcConfig() *grpc.ServerConfig {
 	return c.GrpcServer
-}
-
-func WithServerConfig(c *Config) *ServerConfig {
-	return &ServerConfig{
-		Logger:   c.Logger,
-		Postgres: c.Postgres,
-		Probes:   c.Probes,
-	}
 }
