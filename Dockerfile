@@ -39,9 +39,7 @@ COPY --from=builder /out/ ./
 # Copy configuration files
 COPY --from=builder /app/configs/ ./configs/
 
-# Copy .env files if they exist
-COPY --from=builder /app/auth/.env ./auth/.env 2>/dev/null || true
-COPY --from=builder /app/cards/.env ./cards/.env 2>/dev/null || true
+# Note: .env files are not copied as configuration should be provided via environment variables
 
 # Set default environment variables
 ENV PORT=8080
