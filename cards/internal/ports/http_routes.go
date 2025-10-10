@@ -81,9 +81,9 @@ func registerRoutes(s httpServer, a *app.AppCQRS, authService domain.AuthService
 	api := s.Echo.Group(s.Config.Http.ApiBasePath)
 	api.Use(authMiddleware)
 
-	api.POST("/cards/generate", s.generateCardHandler(a))
-	api.GET("/cards/history", s.getCardsHistoryHandler(a))
-	api.GET("/cards/:id", s.getCardByIDHandler(a))
+	api.POST("/generate", s.generateCardHandler(a))
+	api.GET("/history", s.getCardsHistoryHandler(a))
+	api.GET("/:id", s.getCardByIDHandler(a))
 }
 
 // @Summary		Генерация карточки товара
@@ -95,7 +95,7 @@ func registerRoutes(s httpServer, a *app.AppCQRS, authService domain.AuthService
 // @Success		200		{object}	dto.GenerateCardResponse	"Карточка успешно сгенерирована"
 // @Failure		400		{string}	string					"Неверный формат запроса"
 // @Failure		401		{string}	string					"Неавторизованный доступ"
-// @Router			/cards/generate [post]
+// @Router			/generate [post]
 func (rc *httpServer) generateCardHandler(a *app.AppCQRS) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := c.Request().Context()
@@ -139,7 +139,7 @@ func (rc *httpServer) generateCardHandler(a *app.AppCQRS) echo.HandlerFunc {
 // @Produce		json
 // @Success		200		{object}	dto.CardHistoryResponse	"Список карточек"
 // @Failure		401		{string}	string					"Неавторизованный доступ"
-// @Router			/cards/history [get]
+// @Router			/history [get]
 func (rc *httpServer) getCardsHistoryHandler(a *app.AppCQRS) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := c.Request().Context()
@@ -180,7 +180,7 @@ func (rc *httpServer) getCardsHistoryHandler(a *app.AppCQRS) echo.HandlerFunc {
 // @Success		200	{object}	dto.CardDetailResponse	"Детали карточки"
 // @Failure		401	{string}	string					"Неавторизованный доступ"
 // @Failure		404	{string}	string					"Карточка не найдена"
-// @Router			/cards/{id} [get]
+// @Router			/{id} [get]
 func (rc *httpServer) getCardByIDHandler(a *app.AppCQRS) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := c.Request().Context()
