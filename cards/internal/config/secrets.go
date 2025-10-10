@@ -23,58 +23,21 @@ func mapEnv(config *Config, secrets *Secrets) {
 	}
 
 	serverPort := os.Getenv("CARDS_HTTP_PORT")
-
 	postgresHost := os.Getenv("CARDS_POSTGRES_HOST")
 	postgresPort := os.Getenv("CARDS_POSTGRES_PORT")
 	postgresDbName := os.Getenv("CARDS_POSTGRES_DB_NAME")
 	postgresDbUser := os.Getenv("CARDS_POSTGRES_DB_USER")
 	postgresDbPassword := os.Getenv("CARDS_POSTGRES_DB_PASSWORD")
 
-	serviceName := os.Getenv("SERVICE_NAME")
-
-	grpcPort := os.Getenv("GRPC_PORT")
-
-	authGrpcEndpoint := os.Getenv("AUTH_GRPC_ENDPOINT")
-
 	openaiApiKey := os.Getenv("OPENAI_API_KEY")
-	aiModel := os.Getenv("AI_MODEL")
 
-	if serverPort != "" {
-		config.Http.Port = serverPort
-	}
+	config.Http.Port = serverPort
 
-	if postgresHost != "" {
-		config.Postgres.Host = postgresHost
-	}
-	if postgresPort != "" {
-		config.Postgres.Port = postgresPort
-	}
-	if postgresDbName != "" {
-		config.Postgres.DBName = postgresDbName
-	}
-	if postgresDbUser != "" {
-		secrets.Postgres.User = postgresDbUser
-	}
-	if postgresDbPassword != "" {
-		secrets.Postgres.Password = postgresDbPassword
-	}
+	config.Postgres.Host = postgresHost
+	config.Postgres.Port = postgresPort
+	config.Postgres.DBName = postgresDbName
+	secrets.Postgres.User = postgresDbUser
+	secrets.Postgres.Password = postgresDbPassword
 
-	if serviceName != "" {
-		config.Tracing.ServiceName = serviceName
-	}
-
-	if grpcPort != "" {
-		config.GrpcServer.Port = grpcPort
-	}
-
-	if authGrpcEndpoint != "" {
-		config.Auth.GRPCEndpoint = authGrpcEndpoint
-	}
-
-	if openaiApiKey != "" {
-		config.AI.OpenAIAPIKey = openaiApiKey
-	}
-	if aiModel != "" {
-		config.AI.Model = aiModel
-	}
+	config.AI.OpenAIAPIKey = openaiApiKey
 }

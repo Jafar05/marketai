@@ -1,5 +1,5 @@
 http:
-  port: ${HTTP_PORT}
+  port: ${CARDS_HTTP_PORT}
   api_base_path: "/api/v1"
   readTimeout: 15s
   writeTimeout: 0s
