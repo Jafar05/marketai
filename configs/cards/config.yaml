@@ -1,6 +1,6 @@
 http:
   port: ${CARDS_HTTP_PORT}
-  api_base_path: "/cards/api/v1"
+  apiBasePath: "/cards/api/v1"
   readTimeout: 15s
   writeTimeout: 0s
   bodyLimitSkipPaths: []
