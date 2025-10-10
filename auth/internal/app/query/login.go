@@ -46,16 +46,12 @@ func (h *LoginCommandHandlerResult) Handle(ctx context.Context, cmd dto.LoginCom
 	err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(cmd.Password))
 
 	if err != nil {
-		return nil, errors.New(fmt.Sprintf("неверные учетные данные: %v", err))
+		return nil, fmt.Errorf("неверные учетные данные: %w", err)
 	}
 
 	token, err := jwt.GenerateToken(user.ID, user.Role, h.config.JWTSecret, time.Hour*24)
 	if err != nil {
 		return nil, fmt.Errorf("ошибка при генерации JWT токена: %w", err)
-	}
-
-	if !user.EmailVerified {
-		return nil, errors.New("email не подтверждён")
 	}
 
 	return &LoginCommandResult{Token: token}, nil

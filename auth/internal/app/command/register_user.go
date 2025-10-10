@@ -4,11 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/jackc/pgx/v5"
-	"github.com/mailersend/mailersend-go" // Новый импорт для MailerSend (замена Mailjet)
-	"marketai/auth/internal/adapters/postgres"
 	"marketai/auth/internal/config"
 	"time"
+
+	"github.com/jackc/pgx/v5"
 
 	"golang.org/x/crypto/bcrypt"
 
@@ -24,20 +23,17 @@ type RegisterCommandHandler interface {
 }
 
 type registerUserCommandHandler struct {
-	pgRepo    domain.UserRepository
-	emailRepo *postgres.EmailVerificationRepository
-	cfg       *config.Config
+	pgRepo domain.UserRepository
+	cfg    *config.Config
 }
 
 func NewRegisterUserCommandHandler(
 	userRepo domain.UserRepository,
-	emailRepo *postgres.EmailVerificationRepository,
 	cfg *config.Config,
 ) *registerUserCommandHandler {
 	return &registerUserCommandHandler{
-		pgRepo:    userRepo,
-		emailRepo: emailRepo,
-		cfg:       cfg,
+		pgRepo: userRepo,
+		cfg:    cfg,
 	}
 }
 
@@ -70,45 +66,5 @@ func (h *registerUserCommandHandler) Handle(ctx context.Context, cmd domain.User
 		return nil, fmt.Errorf("ошибка при сохранении пользователя: %w", err)
 	}
 
-	expiresAt := time.Now().Add(24 * time.Hour)
-	token, err := h.emailRepo.CreateToken(ctx, newUser.ID, expiresAt)
-	if err != nil {
-		return nil, fmt.Errorf("ошибка при создании токена подтверждения: %w", err)
-	}
-
-	link := fmt.Sprintf("https://marketai-front-production.up.railway.app?token=%s", token)
-	body := fmt.Sprintf("<h3>Подтвердите ваш email</h3><p><a href='%s'>Нажмите для подтверждения</a></p>", link)
-
-	if err := SendConfirmationEmail(
-		ctx,
-		h.cfg.SMTP.MailerSendAPIKey,
-		h.cfg.SMTP.From,
-		newUser.Email,
-		"Подтверждение email",
-		body,
-	); err != nil {
-		return nil, fmt.Errorf("не удалось отправить письмо подтверждения: %w", err)
-	}
-
 	return &RegisterUserCommandResult{UserID: newUser.ID}, nil
-}
-
-func SendConfirmationEmail(ctx context.Context, apiKey, from, to, subject, htmlBody string) error {
-	ms := mailersend.NewMailersend(apiKey)
-
-	message := &mailersend.Message{
-		From: mailersend.Recipient{
-			Email: from,
-			Name:  "market ai", // Можно изменить на имя отправителя
-		},
-		Subject: subject,
-		HTML:    htmlBody,
-		// Text: "Простой текст версии, если нужно", // Опционально, для fallback
-	}
-
-	_, err := ms.Email.Send(ctx, message)
-	if err != nil {
-		return fmt.Errorf("ошибка отправки через MailerSend: %w", err)
-	}
-	return nil
 }

@@ -6,10 +6,6 @@
 // 2_add_phoneNumber.up.sql (88B)
 // 3_add_fullName.down.sql (50B)
 // 3_add_fullName.up.sql (84B)
-// 4_email_verification_token.down.sql (48B)
-// 4_email_verification_token.up.sql (253B)
-// 5_add_email_verified.down.sql (55B)
-// 5_add_email_verified.up.sql (80B)
 
 package migrations
 
@@ -197,86 +193,6 @@ func _3_add_fullnameUpSql() (*asset, error) {
 	return a, nil
 }
 
-var __4_email_verification_tokenDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\x09\xf2\x0f\x50\x08\x71\x74\xf2\x71\x55\xf0\x74\x53\x70\x8d\xf0\x0c\x0e\x09\x56\x48\xcd\x4d\xcc\xcc\x89\x2f\x4b\x2d\xca\x4c\xcb\x4c\x4e\x2c\xc9\xcc\xcf\x8b\x2f\xc9\xcf\x4e\xcd\x2b\xb6\xe6\x02\x04\x00\x00\xff\xff\x90\xef\xbd\x5c\x30\x00\x00\x00")
-
-func _4_email_verification_tokenDownSqlBytes() ([]byte, error) {
-	return bindataRead(
-		__4_email_verification_tokenDownSql,
-		"4_email_verification_token.down.sql",
-	)
-}
-
-func _4_email_verification_tokenDownSql() (*asset, error) {
-	bytes, err := _4_email_verification_tokenDownSqlBytes()
-	if err != nil {
-		return nil, err
-	}
-
-	info := bindataFileInfo{name: "4_email_verification_token.down.sql", size: 48, mode: os.FileMode(0644), modTime: time.Unix(1759913401, 0)}
-	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xd, 0x79, 0x26, 0xbc, 0xcb, 0xbf, 0xc1, 0xa8, 0x8f, 0x7e, 0x38, 0xf5, 0x70, 0xcb, 0x7c, 0x21, 0xd8, 0xf2, 0x3b, 0x1, 0xa4, 0x11, 0x4c, 0xce, 0x25, 0x27, 0xb5, 0x57, 0xb7, 0x7, 0x49, 0x39}}
-	return a, nil
-}
-
-var __4_email_verification_tokenUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x5c\x8e\x41\x4e\xc3\x30\x10\x45\xf7\x3d\xc5\x5f\x26\x12\x37\x60\x65\xda\x89\x64\x91\x84\xe2\x8c\xa5\x76\x65\x59\xf5\x80\x46\x50\x07\x39\x09\x70\x7c\xa4\x40\x16\x74\x3b\xf3\x9e\xfe\xdb\x3b\x32\x4c\x60\xf3\xd0\x12\x6c\x83\xfe\x89\x41\x27\x3b\xf0\x00\xb9\x46\x7d\x0f\x9f\x52\xf4\x45\x2f\x71\xd6\x31\x87\x79\x7c\x93\x3c\xa1\xda\x01\x80\x26\x78\x6f\x0f\x38\x3a\xdb\x19\x77\xc6\x23\x9d\x71\xa0\xc6\xf8\x96\xf1\x2a\x39\x94\x98\xd3\x78\x0d\xcb\xa2\xa9\xaa\xef\x56\x65\x99\xa4\x84\xcd\x73\xd4\x90\xa3\x7e\x4f\xc3\x7a\x9f\x2a\x4d\x7f\xd8\x3a\x03\xa6\x13\xc3\xf7\xf6\xd9\xd3\x9a\xd5\xfb\xb6\xfd\xfd\xcb\xf7\x87\x16\x99\x42\x9c\xc1\xb6\xa3\x81\x4d\x77\xbc\x41\x2e\x45\xe2\x2c\xe9\x3f\xb2\xd5\xe5\xf1\xab\xaa\x77\xf5\xfd\x4f\x00\x00\x00\xff\xff\xf3\xbb\xc3\x0a\xfd\x00\x00\x00")
-
-func _4_email_verification_tokenUpSqlBytes() ([]byte, error) {
-	return bindataRead(
-		__4_email_verification_tokenUpSql,
-		"4_email_verification_token.up.sql",
-	)
-}
-
-func _4_email_verification_tokenUpSql() (*asset, error) {
-	bytes, err := _4_email_verification_tokenUpSqlBytes()
-	if err != nil {
-		return nil, err
-	}
-
-	info := bindataFileInfo{name: "4_email_verification_token.up.sql", size: 253, mode: os.FileMode(0644), modTime: time.Unix(1759913393, 0)}
-	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x5c, 0x16, 0xeb, 0xa0, 0xe2, 0x80, 0xae, 0xfd, 0x8c, 0x7b, 0x23, 0x2c, 0xf6, 0x50, 0xed, 0xc4, 0x47, 0x9a, 0xfe, 0xeb, 0x83, 0xbb, 0xd2, 0x4a, 0x80, 0x6a, 0x33, 0x62, 0x15, 0x9a, 0xf6, 0x53}}
-	return a, nil
-}
-
-var __5_add_email_verifiedDownSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x72\xf4\x09\x71\x0d\x52\x08\x71\x74\xf2\x71\x55\x28\x2d\x4e\x2d\x2a\x56\x70\x09\xf2\x0f\x50\x70\xf6\xf7\x09\xf5\xf5\x53\xf0\x74\x53\x70\x8d\xf0\x0c\x0e\x09\x56\x48\xcd\x4d\xcc\xcc\x89\x2f\x4b\x2d\xca\x4c\xcb\x4c\x4d\xb1\x06\x04\x00\x00\xff\xff\x0c\x1c\x77\x18\x37\x00\x00\x00")
-
-func _5_add_email_verifiedDownSqlBytes() ([]byte, error) {
-	return bindataRead(
-		__5_add_email_verifiedDownSql,
-		"5_add_email_verified.down.sql",
-	)
-}
-
-func _5_add_email_verifiedDownSql() (*asset, error) {
-	bytes, err := _5_add_email_verifiedDownSqlBytes()
-	if err != nil {
-		return nil, err
-	}
-
-	info := bindataFileInfo{name: "5_add_email_verified.down.sql", size: 55, mode: os.FileMode(0644), modTime: time.Unix(1759913435, 0)}
-	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0x3f, 0xd6, 0x69, 0xe7, 0xca, 0xfa, 0x9c, 0xff, 0x98, 0xee, 0x2c, 0x41, 0x76, 0x51, 0xd1, 0xe8, 0x3b, 0x7b, 0x8, 0xd3, 0x8, 0x83, 0x93, 0xd4, 0xfb, 0x14, 0xa8, 0x24, 0x95, 0x2, 0xcc, 0xf6}}
-	return a, nil
-}
-
-var __5_add_email_verifiedUpSql = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x04\xc0\x51\x0a\x82\x21\x0c\x07\xf0\xab\xfc\xef\xd1\xd3\xcc\x09\xc2\x72\x90\x13\x7a\x0b\xa1\x09\x82\xbd\x28\x75\xfe\xef\x47\x62\xfc\x84\x51\x10\xc6\xef\xf8\x3e\xa0\x18\x71\x57\x69\x8f\x82\x9c\x50\xd4\xc0\xaf\x5c\xad\xc2\xbf\x7d\xae\xf7\xdf\xf7\x1c\xd3\x3f\x08\xaa\xc2\x54\x10\x39\x51\x13\xc3\xe8\xeb\xf8\xed\x0a\x00\x00\xff\xff\x7d\xbf\x37\xde\x50\x00\x00\x00")
-
-func _5_add_email_verifiedUpSqlBytes() ([]byte, error) {
-	return bindataRead(
-		__5_add_email_verifiedUpSql,
-		"5_add_email_verified.up.sql",
-	)
-}
-
-func _5_add_email_verifiedUpSql() (*asset, error) {
-	bytes, err := _5_add_email_verifiedUpSqlBytes()
-	if err != nil {
-		return nil, err
-	}
-
-	info := bindataFileInfo{name: "5_add_email_verified.up.sql", size: 80, mode: os.FileMode(0644), modTime: time.Unix(1759913393, 0)}
-	a := &asset{bytes: bytes, info: info, digest: [32]uint8{0xab, 0x8e, 0x84, 0x84, 0x74, 0x79, 0xa4, 0x7e, 0x4, 0xac, 0x2a, 0xd6, 0x7e, 0xf4, 0x4e, 0xf2, 0xc8, 0x6f, 0xbc, 0xd8, 0x6a, 0x6, 0x3c, 0xa6, 0xc, 0x96, 0x7c, 0xf1, 0x24, 0x21, 0xf8, 0xdf}}
-	return a, nil
-}
-
 // Asset loads and returns the asset for the given name.
 // It returns an error if the asset could not be found or
 // could not be loaded.
@@ -368,16 +284,12 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() (*asset, error){
-	"1_user_migration.down.sql":           _1_user_migrationDownSql,
-	"1_user_migration.up.sql":             _1_user_migrationUpSql,
-	"2_add_phoneNumber.down.sql":          _2_add_phonenumberDownSql,
-	"2_add_phoneNumber.up.sql":            _2_add_phonenumberUpSql,
-	"3_add_fullName.down.sql":             _3_add_fullnameDownSql,
-	"3_add_fullName.up.sql":               _3_add_fullnameUpSql,
-	"4_email_verification_token.down.sql": _4_email_verification_tokenDownSql,
-	"4_email_verification_token.up.sql":   _4_email_verification_tokenUpSql,
-	"5_add_email_verified.down.sql":       _5_add_email_verifiedDownSql,
-	"5_add_email_verified.up.sql":         _5_add_email_verifiedUpSql,
+	"1_user_migration.down.sql":  _1_user_migrationDownSql,
+	"1_user_migration.up.sql":    _1_user_migrationUpSql,
+	"2_add_phoneNumber.down.sql": _2_add_phonenumberDownSql,
+	"2_add_phoneNumber.up.sql":   _2_add_phonenumberUpSql,
+	"3_add_fullName.down.sql":    _3_add_fullnameDownSql,
+	"3_add_fullName.up.sql":      _3_add_fullnameUpSql,
 }
 
 // AssetDebug is true if the assets were built with the debug flag enabled.
@@ -426,16 +338,12 @@ type bintree struct {
 }
 
 var _bintree = &bintree{nil, map[string]*bintree{
-	"1_user_migration.down.sql":           {_1_user_migrationDownSql, map[string]*bintree{}},
-	"1_user_migration.up.sql":             {_1_user_migrationUpSql, map[string]*bintree{}},
-	"2_add_phoneNumber.down.sql":          {_2_add_phonenumberDownSql, map[string]*bintree{}},
-	"2_add_phoneNumber.up.sql":            {_2_add_phonenumberUpSql, map[string]*bintree{}},
-	"3_add_fullName.down.sql":             {_3_add_fullnameDownSql, map[string]*bintree{}},
-	"3_add_fullName.up.sql":               {_3_add_fullnameUpSql, map[string]*bintree{}},
-	"4_email_verification_token.down.sql": {_4_email_verification_tokenDownSql, map[string]*bintree{}},
-	"4_email_verification_token.up.sql":   {_4_email_verification_tokenUpSql, map[string]*bintree{}},
-	"5_add_email_verified.down.sql":       {_5_add_email_verifiedDownSql, map[string]*bintree{}},
-	"5_add_email_verified.up.sql":         {_5_add_email_verifiedUpSql, map[string]*bintree{}},
+	"1_user_migration.down.sql":  {_1_user_migrationDownSql, map[string]*bintree{}},
+	"1_user_migration.up.sql":    {_1_user_migrationUpSql, map[string]*bintree{}},
+	"2_add_phoneNumber.down.sql": {_2_add_phonenumberDownSql, map[string]*bintree{}},
+	"2_add_phoneNumber.up.sql":   {_2_add_phonenumberUpSql, map[string]*bintree{}},
+	"3_add_fullName.down.sql":    {_3_add_fullnameDownSql, map[string]*bintree{}},
+	"3_add_fullName.up.sql":      {_3_add_fullnameUpSql, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory.

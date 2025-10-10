@@ -3,6 +3,7 @@ package postgres
 import (
 	"context"
 	"errors"
+
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
@@ -24,7 +25,6 @@ func (r *AuthRepository) GetUserByUsername(ctx context.Context, email string, ph
 		&user.Email,
 		&user.PasswordHash,
 		&user.Role,
-		&user.EmailVerified,
 		&user.CreatedAt,
 		&user.UpdatedAt,
 	)
@@ -61,9 +61,4 @@ func (r *AuthRepository) GetDataByToken(ctx context.Context, token string) (*dom
 	// `)
 
 	return &domain.GetData{}, nil
-}
-
-func (r *AuthRepository) MarkEmailVerified(ctx context.Context, userID string) error {
-	_, err := r.conn.Exec(ctx, `UPDATE users SET email_verified=true WHERE id=$1`, userID)
-	return err
 }
