@@ -2,6 +2,7 @@ package ports
 
 import (
 	"marketai/cards/internal/adapters"
+	"marketai/cards/internal/adapters/migrations"
 	"marketai/cards/internal/adapters/postgres"
 	"marketai/cards/internal/app"
 	"marketai/cards/internal/config"
@@ -17,7 +18,12 @@ func App() fx.Option {
 		bootstrap.AppOptions[*config.Config](
 			bootstrap.WithSecrets[*config.Secrets](config.MapConfig),
 			bootstrap.WithEcho[*config.Config](registerRoutes),
-			postgresql.Connection[*config.Config](),
+			postgresql.Connection[*config.Config](
+				postgresql.WithBindataMigrate(
+					migrations.AssetNames(),
+					migrations.Asset,
+				),
+			),
 			fx.Provide(
 				app.NewAppCQRS,
 				postgres.NewCardRepository,

@@ -29,30 +29,35 @@ func NewOpenAIService(cfg *config.Config) *OpenAIService {
 
 func (s *OpenAIService) GenerateCardContent(ctx context.Context, photoURL, description string) (*domain.GeneratedCard, error) {
 	prompt := fmt.Sprintf(`
-Создай карточку товара для маркетплейса на основе описания: "%s"
-
-Требования:
-1. Заголовок должен быть кратким и привлекательным (до 60 символов)
-2. Описание должно быть подробным и продающим (150-300 слов)
-3. Теги должны быть релевантными для поиска (5-10 тегов)
-4. Используй эмодзи для привлекательности
-
-Ответь в формате JSON:
-{
-  "title": "заголовок товара",
-  "description": "подробное описание товара",
-  "tags": ["тег1", "тег2", "тег3"]
-}
+		Создай карточку товара для маркетплейса на основе описания: "%s"
+		
+		Требования:
+		1. Заголовок должен быть кратким и привлекательным (до 60 символов)
+		2. Описание должно быть подробным и продающим (150-300 слов)
+		3. Теги должны быть релевантными для поиска (5-10 тегов)
+		4. Используй эмодзи для привлекательности
+		
+		Ответь строго в формате JSON без пояснений, текста или Markdown.
+		{
+		  "title": "заголовок товара",
+		  "description": "подробное описание товара",
+		  "tags": ["тег1", "тег2", "тег3"]
+		}
 `, description)
 
 	requestBody := map[string]interface{}{
 		"model": s.model,
 		"messages": []map[string]string{
 			{
+				"role":    "system",
+				"content": "You are a helpful assistant.",
+			},
+			{
 				"role":    "user",
 				"content": prompt,
 			},
 		},
+		"stream":      false,
 		"max_tokens":  500,
 		"temperature": 0.7,
 	}
@@ -62,7 +67,7 @@ func (s *OpenAIService) GenerateCardContent(ctx context.Context, photoURL, descr
 		return nil, fmt.Errorf("failed to marshal request: %w", err)
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", "https://api.openai.com/v1/chat/completions", bytes.NewBuffer(jsonData))
+	req, err := http.NewRequestWithContext(ctx, "POST", "https://api.deepseek.com/chat/completions", bytes.NewBuffer(jsonData))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create request: %w", err)
 	}
@@ -75,9 +80,9 @@ func (s *OpenAIService) GenerateCardContent(ctx context.Context, photoURL, descr
 		return nil, fmt.Errorf("failed to make request: %w", err)
 	}
 	defer resp.Body.Close()
-
+	fmt.Println("resp===", resp)
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("OpenAI API error: status %d", resp.StatusCode)
+		return nil, fmt.Errorf("Deepseek API error: status %d", resp.StatusCode)
 	}
 
 	var response struct {

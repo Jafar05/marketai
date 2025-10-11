@@ -29,7 +29,7 @@ func mapEnv(config *Config, secrets *Secrets) {
 	postgresDbUser := os.Getenv("CARDS_POSTGRES_DB_USER")
 	postgresDbPassword := os.Getenv("CARDS_POSTGRES_DB_PASSWORD")
 
-	openaiApiKey := os.Getenv("OPENAI_API_KEY")
+	deepseekApiKey := os.Getenv("DEEPSEEK_API_KEY")
 
 	config.Http.Port = serverPort
 
@@ -39,5 +39,5 @@ func mapEnv(config *Config, secrets *Secrets) {
 	secrets.Postgres.User = postgresDbUser
 	secrets.Postgres.Password = postgresDbPassword
 
-	config.AI.OpenAIAPIKey = openaiApiKey
+	config.AI.OpenAIAPIKey = deepseekApiKey
 }

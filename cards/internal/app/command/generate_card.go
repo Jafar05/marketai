@@ -56,7 +56,6 @@ func (h *generateCardHandler) Handle(ctx context.Context, cmd GenerateCardComman
 		UpdatedAt:        time.Now(),
 	}
 
-	// Сохраняем в базу данных
 	if err := h.cardRepo.CreateCard(ctx, card); err != nil {
 		return nil, fmt.Errorf("failed to save card: %w", err)
 	}
