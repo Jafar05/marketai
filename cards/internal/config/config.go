@@ -22,8 +22,8 @@ type (
 		} `mapstructure:"auth"`
 
 		AI struct {
-			OpenAIAPIKey string `mapstructure:"openai_api_key"`
-			Model        string `mapstructure:"model"`
+			DeepseekAPIKey string `mapstructure:"deepseek_api"`
+			Model          string `mapstructure:"model"`
 		} `mapstructure:"ai"`
 	}
 

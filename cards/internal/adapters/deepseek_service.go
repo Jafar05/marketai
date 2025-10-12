@@ -19,7 +19,7 @@ type OpenAIService struct {
 
 func NewOpenAIService(cfg *config.Config) *OpenAIService {
 	return &OpenAIService{
-		apiKey: cfg.AI.OpenAIAPIKey,
+		apiKey: cfg.AI.DeepseekAPIKey,
 		model:  cfg.AI.Model,
 		client: &http.Client{
 			Timeout: 30 * time.Second,
@@ -80,7 +80,7 @@ func (s *OpenAIService) GenerateCardContent(ctx context.Context, photoURL, descr
 		return nil, fmt.Errorf("failed to make request: %w", err)
 	}
 	defer resp.Body.Close()
-	fmt.Println("resp===", resp)
+
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("Deepseek API error: status %d", resp.StatusCode)
 	}

@@ -31,7 +31,6 @@ grpc:
   port: 50052
 auth:
   grpc_endpoint: "localhost:50051"
-
 ai:
-  deep: ${DEEPSEEK_API_KEY}
+  deepseek_api: ${DEEPSEEK_API_KEY}
   model: "deepseek-chat"

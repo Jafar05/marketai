@@ -39,5 +39,5 @@ func mapEnv(config *Config, secrets *Secrets) {
 	secrets.Postgres.User = postgresDbUser
 	secrets.Postgres.Password = postgresDbPassword
 
-	config.AI.OpenAIAPIKey = deepseekApiKey
+	config.AI.DeepseekAPIKey = deepseekApiKey
 }
