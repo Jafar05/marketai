@@ -17,11 +17,7 @@ services:
   auth-service:
     build:
       context: .
-      dockerfile: Dockerfile
-      args:
-        SERVICE_NAME: auth
-        BUILD_PATH: ./auth/cmd/auth
-        BINARY_NAME: auth-service
+      dockerfile: Dockerfile.auth
     container_name: auth-service
     restart: always
     depends_on:
@@ -34,17 +30,14 @@ services:
       POSTGRES_DB_NAME: marketai
       POSTGRES_DB_USER: postgres
       POSTGRES_DB_PASSWORD: password
-    command: ["./auth-service", "--config", "/app/configs/auth/config.yaml", "--secrets", "/app/configs/auth/secrets.yaml"]
     ports:
       - "8080:8080"
+    command: ["./auth-service", "--config", "/app/configs/auth/config.yaml", "--secrets", "/app/configs/auth/secrets.yaml"]
 
   cards-service:
     build:
       context: .
-      dockerfile: Dockerfile
-      args:
-        SERVICE_NAME: cards
-        BINARY_NAME: cards-service
+      dockerfile: Dockerfile.cards
     container_name: cards-service
     restart: always
     depends_on:
@@ -62,6 +55,7 @@ services:
       AUTH_GRPC_ENDPOINT: auth-service:50051
     ports:
       - "8081:8081"
+    command: ["./cards-service", "--config", "/app/configs/cards/config.yaml", "--secrets", "/app/configs/cards/secrets.yaml"]
 
   frontend:
     build:

@@ -1,0 +1,25 @@
+# --- Сборка бинаря ---
+    FROM golang:1.23-alpine AS builder
+    WORKDIR /app
+    
+    # Копируем код сервиса
+    COPY cards ./cards
+    
+    # Собираем бинарь
+    WORKDIR /app/cards/cmd/cards
+    RUN go build -o /app/cards-service .
+    
+    # --- Финальный образ ---
+    FROM alpine:3.19
+    WORKDIR /app
+    
+    # Копируем бинарь и конфиги
+    COPY --from=builder /app/cards-service .
+    COPY configs/cards ./configs/cards
+    
+    # Открываем порт (опционально)
+    EXPOSE 8081 50052
+    
+    # Запуск
+    CMD ["./cards-service", "--config", "/app/configs/cards/config.yaml", "--secrets", "/app/configs/cards/secrets.yaml"]
+    

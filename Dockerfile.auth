@@ -1,0 +1,25 @@
+# --- Сборка бинаря ---
+    FROM golang:1.23-alpine AS builder
+    WORKDIR /app
+    
+    # Копируем код сервиса
+    COPY auth ./auth
+    
+    # Собираем бинарь
+    WORKDIR /app/auth/cmd/auth
+    RUN go build -o /app/auth-service .
+    
+    # --- Финальный образ ---
+    FROM alpine:3.19
+    WORKDIR /app
+    
+    # Копируем бинарь и конфиги
+    COPY --from=builder /app/auth-service .
+    COPY configs/auth ./configs/auth
+    
+    # Открываем порты (опционально)
+    EXPOSE 8080 50051
+    
+    # Запуск
+    CMD ["./auth-service", "--config", "/app/configs/auth/config.yaml", "--secrets", "/app/configs/auth/secrets.yaml"]
+    
