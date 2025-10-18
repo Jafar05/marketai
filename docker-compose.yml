@@ -44,7 +44,6 @@ services:
       dockerfile: Dockerfile
       args:
         SERVICE_NAME: cards
-        BUILD_PATH: ./cards/cmd/cards
         BINARY_NAME: cards-service
     container_name: cards-service
     restart: always
@@ -58,10 +57,9 @@ services:
       CARDS_POSTGRES_HOST: postgres
       CARDS_POSTGRES_PORT: "5432"
       CARDS_POSTGRES_DB_NAME: marketai_cards
-      CARDS_PG_DB_USER: postgres
+      CARDS_POSTGRES_DB_USER: postgres
       CARDS_POSTGRES_DB_PASSWORD: password
       AUTH_GRPC_ENDPOINT: auth-service:50051
-    command: ["./cards-service", "--config", "/app/configs/cards/config.yaml", "--secrets", "/app/configs/cards/secrets.yaml"]
     ports:
       - "8081:8081"
 
