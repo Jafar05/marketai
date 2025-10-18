@@ -79,6 +79,10 @@ func NewPgxPool(cfg *PostgresCfg) (*pgxpool.Pool, error) {
 }
 
 func newPgxPool(cfg *PostgresCfg, logger *zap.Logger) (*pgxpool.Pool, error) {
+	fmt.Println("cfg.user ====", cfg.User)
+	if cfg.User == "" {
+		return nil, errors.New("empty user")
+	}
 
 	if cfg.Password == "" {
 		return nil, errors.New("empty password")

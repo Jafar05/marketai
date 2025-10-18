@@ -18,11 +18,6 @@ type (
 		GrpcServer *grpc.ServerConfig       `mapstructure:"grpc" validate:"required"`
 
 		JWTSecret string `mapstructure:"jwt_secret" env:"JWT_SECRET"`
-
-		SMTP struct {
-			MailerSendAPIKey string `mapstructure:"smtp_mailer_send_api_key"`
-			From             string `mapstructure:"smtp_from"`
-		} `mapstructure:"smtp"`
 	}
 
 	ServerConfig struct {
