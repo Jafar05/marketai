@@ -54,11 +54,12 @@ services:
     env_file:
       - ./cards/.env
     environment:
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: "5432"
-      POSTGRES_DB_NAME: marketai_cards
-      POSTGRES_DB_USER: postgres
-      POSTGRES_DB_PASSWORD: password
+      CARDS_HTTP_PORT: "8081"
+      CARDS_POSTGRES_HOST: postgres
+      CARDS_POSTGRES_PORT: "5432"
+      CARDS_POSTGRES_DB_NAME: marketai_cards
+      CARDS_PG_DB_USER: postgres
+      CARDS_POSTGRES_DB_PASSWORD: password
       AUTH_GRPC_ENDPOINT: auth-service:50051
     command: ["./cards-service", "--config", "/app/configs/cards/config.yaml", "--secrets", "/app/configs/cards/secrets.yaml"]
     ports:
