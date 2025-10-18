@@ -1,9 +1,10 @@
 package config
 
 import (
-	"github.com/joho/godotenv"
 	"marketai/pkg/postgresql"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 type Secrets struct {

@@ -15,7 +15,7 @@ probes:
   checkIntervalSeconds: 10
 postgres:
   host: ${CARDS_POSTGRES_HOST}
-  port: ${CARDS_POSTGRES_PORT}
+  port: 44636
   dbName: ${CARDS_POSTGRES_DB_NAME}
   sslMode: "disable"
   maxConn: 10
