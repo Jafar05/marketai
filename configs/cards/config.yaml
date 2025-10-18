@@ -14,8 +14,8 @@ probes:
   prometheusPath: "/metrics"
   checkIntervalSeconds: 10
 postgres:
-  host: "hopper.proxy.rlwy.net"
-  port: 44636
+  host: "tramway.proxy.rlwy.net"
+  port: 18941
   dbName: railway
   sslMode: "disable"
   maxConn: 10
