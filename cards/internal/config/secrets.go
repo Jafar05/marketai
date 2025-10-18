@@ -26,7 +26,7 @@ func mapEnv(config *Config, secrets *Secrets) {
 	postgresHost := os.Getenv("CARDS_POSTGRES_HOST")
 	postgresPort := os.Getenv("CARDS_POSTGRES_PORT")
 	postgresDbName := os.Getenv("CARDS_POSTGRES_DB_NAME")
-	postgresDbUser := os.Getenv("CARDS_POSTGRES_DB_USER")
+	postgresDbUser := os.Getenv("CARDS_PG_DB_USER")
 	postgresDbPassword := os.Getenv("CARDS_POSTGRES_DB_PASSWORD")
 
 	deepseekApiKey := os.Getenv("DEEPSEEK_API_KEY")
