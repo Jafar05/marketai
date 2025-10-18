@@ -22,12 +22,12 @@ func mapEnv(config *Config, secrets *Secrets) {
 		godotenv.Load("/Users/jafar/GolandProjects/MarketAI/cards/.env")
 	}
 
-	serverPort := os.Getenv("HTTP_PORT")
-	postgresHost := os.Getenv("POSTGRES_HOST")
-	postgresPort := os.Getenv("POSTGRES_PORT")
-	postgresDbName := os.Getenv("POSTGRES_DB_NAME")
-	postgresDbUser := os.Getenv("POSTGRES_DB_USER")
-	postgresDbPassword := os.Getenv("POSTGRES_DB_PASSWORD")
+	serverPort := os.Getenv("CARDS_HTTP_PORT")
+	postgresHost := os.Getenv("CARDS_POSTGRES_HOST")
+	postgresPort := os.Getenv("CARDS_POSTGRES_PORT")
+	postgresDbName := os.Getenv("CARDS_POSTGRES_DB_NAME")
+	postgresDbUser := os.Getenv("CARDS_POSTGRES_DB_USER")
+	postgresDbPassword := os.Getenv("CARDS_POSTGRES_DB_PASSWORD")
 
 	deepseekApiKey := os.Getenv("DEEPSEEK_API_KEY")
 
