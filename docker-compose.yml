@@ -22,8 +22,6 @@ services:
     restart: always
     depends_on:
       - postgres
-    env_file:
-      - ./auth/.env
     environment:
       POSTGRES_HOST: postgres
       POSTGRES_PORT: "5432"
@@ -32,7 +30,7 @@ services:
       POSTGRES_DB_PASSWORD: password
     ports:
       - "8080:8080"
-    command: ["./auth-service", "--config", "/app/configs/auth/config.yaml", "--secrets", "/app/configs/auth/secrets.yaml"]
+      - "50051:50051"
 
   cards-service:
     build:
@@ -43,8 +41,6 @@ services:
     depends_on:
       - postgres
       - auth-service
-    env_file:
-      - ./cards/.env
     environment:
       CARDS_HTTP_PORT: "8081"
       CARDS_POSTGRES_HOST: postgres
@@ -55,7 +51,7 @@ services:
       AUTH_GRPC_ENDPOINT: auth-service:50051
     ports:
       - "8081:8081"
-    command: ["./cards-service", "--config", "/app/configs/cards/config.yaml", "--secrets", "/app/configs/cards/secrets.yaml"]
+      - "50052:50052"
 
   frontend:
     build:
