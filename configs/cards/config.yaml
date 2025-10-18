@@ -1,5 +1,5 @@
 http:
-  port: ":8090"
+  port: ${CARDS_HTTP_PORT}
   apiBasePath: "/cards/api/v1"
   readTimeout: 15s
   writeTimeout: 0s
@@ -14,9 +14,9 @@ probes:
   prometheusPath: "/metrics"
   checkIntervalSeconds: 10
 postgres:
-  host: "hopper.proxy.rlwy.net"
-  port: 44636
-  dbName: railway
+  host: ${CARDS_POSTGRES_HOST}
+  port: ${CARDS_POSTGRES_PORT}
+  dbName: ${CARDS_POSTGRES_DB_NAME}
   sslMode: "disable"
   maxConn: 10
   minConn: 2
