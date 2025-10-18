@@ -10,10 +10,10 @@ RUN go mod download
 COPY . .
 
 # Собираем бинарь auth сервиса
-WORKDIR /app/auth/cmd/auth
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
     -ldflags "-s -w" \
-    -o /app/auth-service .
+    -o /app/auth-service \
+    ./auth/cmd/auth
 
 # --- Финальный образ ---
 FROM alpine:3.19
