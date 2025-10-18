@@ -12,7 +12,7 @@ type Secrets struct {
 }
 
 func MapConfig(config *Config, secrets *Secrets) *Config {
-	// mapEnv(config, secrets)
+	mapEnv(config, secrets)
 	config.Postgres = postgresql.MapSecrets(config.Postgres, secrets.Postgres)
 	return config
 }
