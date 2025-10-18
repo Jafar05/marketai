@@ -32,7 +32,6 @@ func mapEnv(config *Config, secrets *Secrets) {
 	deepseekApiKey := os.Getenv("DEEPSEEK_API_KEY")
 
 	config.Http.Port = serverPort
-
 	config.Postgres.Host = postgresHost
 	config.Postgres.Port = postgresPort
 	config.Postgres.DBName = postgresDbName

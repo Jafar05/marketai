@@ -32,9 +32,6 @@ func mapEnv(config *Config, secrets *Secrets) {
 	postgresDbUser := os.Getenv("POSTGRES_DB_USER")
 	postgresDbPassword := os.Getenv("POSTGRES_DB_PASSWORD")
 
-	smtpMailerApiKey := os.Getenv("SMTP_MAILER_API_KEY")
-	smtpFrom := os.Getenv("SMTP_FROM")
-
 	config.Http.Port = httpPort
 	config.GrpcServer.Port = grpcPort
 	config.JWTSecret = jwtSecret
@@ -43,7 +40,4 @@ func mapEnv(config *Config, secrets *Secrets) {
 	config.Postgres.DBName = postgresDbName
 	secrets.Postgres.User = postgresDbUser
 	secrets.Postgres.Password = postgresDbPassword
-
-	config.SMTP.MailerSendAPIKey = smtpMailerApiKey
-	config.SMTP.From = smtpFrom
 }
