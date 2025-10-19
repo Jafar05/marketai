@@ -41,5 +41,7 @@ ENV BINARY_NAME=auth-service
 EXPOSE 8080
 
 
-CMD ["sh", "-c", "./${BINARY_NAME} --config /app/configs/${SERVICE_NAME}/config.yaml --secrets /app/configs/${SERVICE_NAME}/secrets.yaml"]
+RUN ln -s /app/${BINARY_NAME} /app/service
+CMD ["sh", "-c", "./service --config /app/configs/${SERVICE_NAME}/config.yaml --secrets /app/configs/${SERVICE_NAME}/secrets.yaml"]
+
 
