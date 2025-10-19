@@ -40,10 +40,6 @@ ENV BINARY_NAME=auth-service
 
 EXPOSE 8080
 
-RUN if [ "${SERVICE_NAME}" = "cards" ]; then \
-      ln -s /app/cards-service /app/service; \
-    else \
-      ln -s /app/auth-service /app/service; \
-    fi
 
-CMD ["sh", "-c", "./service --config /app/configs/${SERVICE_NAME}/config.yaml --secrets /app/configs/${SERVICE_NAME}/secrets.yaml"]
+CMD ["sh", "-c", "./${BINARY_NAME} --config /app/configs/${SERVICE_NAME}/config.yaml --secrets /app/configs/${SERVICE_NAME}/secrets.yaml"]
+
