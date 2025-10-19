@@ -1,34 +1,34 @@
-# --- Сборка бинаря ---
-FROM golang:1.24-alpine AS builder
-WORKDIR /app
-
-# Копируем go.mod и go.sum для кэширования зависимостей
-COPY go.mod go.sum ./
-RUN go mod download
-
-# Копируем весь проект
-COPY . .
-
-# Собираем бинарь auth сервиса
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
-    -ldflags "-s -w" \
-    -o /app/auth-service \
-    ./auth/cmd/auth
-
-# --- Финальный образ ---
-FROM alpine:3.19
-WORKDIR /app
-
-# Устанавливаем runtime зависимости
-RUN apk --no-cache add ca-certificates tzdata
-
-# Копируем бинарь и конфиги
-COPY --from=builder /app/auth-service .
-COPY --from=builder /app/configs/auth ./configs/auth
-
-# Открываем порты
-EXPOSE 8080 50051
-
-# Запуск
-CMD ["./auth-service", "--config", "/app/configs/auth/config.yaml", "--secrets", "/app/configs/auth/secrets.yaml"]
+# --- Stage 1: Build ---
+    FROM golang:1.24-alpine AS builder
+    WORKDIR /app
+    
+    # Копируем go.mod и go.sum
+    COPY go.mod go.sum ./
+    RUN go mod download
+    
+    # Копируем нужные пакеты проекта
+    COPY auth ./auth
+    COPY pkg ./pkg
+    COPY pkgAuth ./pkgAuth
+    COPY configs ./configs
+    
+    # Собираем бинарь auth
+    RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+        -ldflags "-s -w" \
+        -o /app/auth-service \
+        ./auth/cmd/auth
+    
+    # --- Stage 2: Runtime ---
+    FROM alpine:3.19
+    WORKDIR /app
+    
+    RUN apk --no-cache add ca-certificates tzdata
+    
+    # Копируем бинарь и конфиги
+    COPY --from=builder /app/auth-service .
+    COPY --from=builder /app/configs/auth ./configs/auth
+    
+    EXPOSE 8080 50051
+    
+    CMD ["./auth-service", "--config", "/app/configs/auth/config.yaml", "--secrets", "/app/configs/auth/secrets.yaml"]
     

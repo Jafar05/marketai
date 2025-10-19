@@ -16,17 +16,24 @@ COPY . .
 
 # Build arguments for service selection
 ARG SERVICE_NAME=auth
-ARG BUILD_PATH=./auth/cmd/auth
-ARG BINARY_NAME=auth-service
 
 # Create output directory
 RUN mkdir -p /out
 
-# Build the service binary
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
-    -ldflags "-s -w" \
-    -o /out/${BINARY_NAME} \
-    ${BUILD_PATH}
+# Build the service binary based on SERVICE_NAME
+RUN if [ "$SERVICE_NAME" = "auth" ]; then \
+        CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+        -ldflags "-s -w" \
+        -o /out/auth-service \
+        ./auth/cmd/auth; \
+    elif [ "$SERVICE_NAME" = "cards" ]; then \
+        CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+        -ldflags "-s -w" \
+        -o /out/cards-service \
+        ./cards/cmd/cards; \
+    else \
+        echo "Unknown service: $SERVICE_NAME" && exit 1; \
+    fi
 
 # Runtime stage
 FROM alpine:latest
@@ -36,7 +43,7 @@ RUN apk --no-cache add ca-certificates tzdata
 
 WORKDIR /app
 
-# Copy binary from builder stage
+# Copy all binaries from builder stage
 COPY --from=builder /out/ ./
 
 # Copy configuration files
@@ -53,5 +60,16 @@ ENV CONFIG_PATH=/app/configs
 # Expose default port (can be overridden)
 EXPOSE 8080
 
-# Default command (can be overridden)
-CMD ["./auth-service"]
+# Create universal startup script
+RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo 'if [ -f "./auth-service" ]; then' >> /app/start.sh && \
+    echo '    ./auth-service --config /app/configs/auth/config.yaml --secrets /app/configs/auth/secrets.yaml' >> /app/start.sh && \
+    echo 'elif [ -f "./cards-service" ]; then' >> /app/start.sh && \
+    echo '    ./cards-service --config /app/configs/cards/config.yaml --secrets /app/configs/cards/secrets.yaml' >> /app/start.sh && \
+    echo 'else' >> /app/start.sh && \
+    echo '    echo "No service binary found!" && exit 1' >> /app/start.sh && \
+    echo 'fi' >> /app/start.sh && \
+    chmod +x /app/start.sh
+
+# Default command
+CMD ["/app/start.sh"]

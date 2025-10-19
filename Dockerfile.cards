@@ -1,34 +1,33 @@
-# --- Сборка бинаря ---
-FROM golang:1.24-alpine AS builder
-WORKDIR /app
-
-# Копируем go.mod и go.sum для кэширования зависимостей
-COPY go.mod go.sum ./
-RUN go mod download
-
-# Копируем весь проект
-COPY . .
-
-# Собираем бинарь cards сервиса
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
-    -ldflags "-s -w" \
-    -o /app/cards-service \
-    ./cards/cmd/cards
-
-# --- Финальный образ ---
-FROM alpine:3.19
-WORKDIR /app
-
-# Устанавливаем runtime зависимости
-RUN apk --no-cache add ca-certificates tzdata
-
-# Копируем бинарь и конфиги
-COPY --from=builder /app/cards-service .
-COPY --from=builder /app/configs/cards ./configs/cards
-
-# Открываем порты
-EXPOSE 8081 50052
-
-# Запуск
-CMD ["./cards-service", "--config", "/app/configs/cards/config.yaml", "--secrets", "/app/configs/cards/secrets.yaml"]
+# --- Stage 1: Build ---
+    FROM golang:1.24-alpine AS builder
+    WORKDIR /app
+    
+    COPY go.mod go.sum ./
+    RUN go mod download
+    
+    # Копируем нужные пакеты проекта
+    COPY cards ./cards
+    COPY pkg ./pkg
+    COPY pkgAuth ./pkgAuth
+    COPY auth/proto ./auth/proto
+    COPY configs ./configs
+    
+    # Собираем бинарь cards
+    RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+        -ldflags "-s -w" \
+        -o /app/cards-service \
+        ./cards/cmd/cards
+    
+    # --- Stage 2: Runtime ---
+    FROM alpine:3.19
+    WORKDIR /app
+    
+    RUN apk --no-cache add ca-certificates tzdata
+    
+    COPY --from=builder /app/cards-service .
+    COPY --from=builder /app/configs/cards ./configs/cards
+    
+    EXPOSE 8081 50052
+    
+    CMD ["./cards-service", "--config", "/app/configs/cards/config.yaml", "--secrets", "/app/configs/cards/secrets.yaml"]
     
