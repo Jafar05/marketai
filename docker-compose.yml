@@ -17,7 +17,7 @@ services:
   auth-service:
     build:
       context: .
-      dockerfile: Dockerfile.auth
+      dockerfile: Dockerfile
     container_name: auth-service
     restart: always
     depends_on:
